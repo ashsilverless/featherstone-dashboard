@@ -44,7 +44,7 @@
             <div class="col-10 offset-1 mt-5">
 						<div class="home_content text-center">
 							<div class="login">
-								<h1 id="loginlogo">UP<img src="images/fs_logo.jpg" width="342" height="178" alt=""/></h1>
+								<h1 id="loginlogo">UP2<img src="images/fs_logo.jpg" width="342" height="178" alt=""/></h1>
 								<form action="authenticate.php" method="post" name="login" id="login">
 									<label for="email" id="emaillabel" >
 										<i class="fa fa-envelope"></i>
