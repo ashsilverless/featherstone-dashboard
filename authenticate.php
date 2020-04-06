@@ -2,7 +2,7 @@
 session_start();
 	##################      LIVE SERVER     ###########################
 
-	$host = "localhost";
+	$host = "46.32.229.204";
 	$user = "FeatherStoneDashboard";
 	$pass = "FSD>Login-1";
 	$db	 = "featherstone_db";
@@ -29,12 +29,12 @@ try {
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-	  $result = $conn->prepare("SELECT * FROM tbl_fsusers WHERE email_address LIKE '$email' AND password LIKE '$password' AND destruct_date > '$str_date' AND bl_live = 1; "); 
+	  $result = $conn->prepare("SELECT * FROM tbl_fsusers WHERE email_address LIKE '$email' AND password LIKE '$password' AND destruct_date > '$str_date' AND bl_live = 1; ");
 	  $result->execute();
 
 	  // Parse returned data
 	  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-		  // Verification success! 
+		  // Verification success!
 			session_regenerate_id();
 			$_SESSION['name'] = $row['first_name'];
             $_SESSION['username'] = $row['user_name'];
@@ -48,11 +48,11 @@ try {
             $dbhash = $row['password_hash'];
 		  $_SESSION['loggedin'] = TRUE;
             //password_verify($password,$dbhash) ? $_SESSION['loggedin'] = TRUE : $_SESSION['loggedin'] = FALSE;
-		  
+
 	  }
 
 	  $conn = null;        // Disconnect
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -69,8 +69,8 @@ if(!$_SESSION['loggedin']){
         $sql = "UPDATE tbl_fsusers SET last_logged_in = '$str_date' WHERE id = ".$_SESSION['user_id']."; ";
         $conn->exec($sql);
 
-    
-    
+
+
     $_SESSION['last_logged_in'] = date('jS M Y',strtotime($str_date));
     $conn = null;
     header("location:client/home.php");

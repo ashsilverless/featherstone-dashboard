@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Tim">
-    <title>Login Page</title>
+    <title>FS Portal - Client Log In</title>
 
   <!-- Custom fonts -->
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -24,7 +24,7 @@
 
 <body style="background-color:white;">
 
-    
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -44,7 +44,7 @@
             <div class="col-10 offset-1 mt-5">
 						<div class="home_content text-center">
 							<div class="login">
-								<h1 id="loginlogo">Git Success<img src="images/fs_logo.jpg" width="342" height="178" alt=""/></h1>
+								<h1 id="loginlogo">Client Login (on MAMP)<img src="images/fs_logo.jpg" width="342" height="178" alt=""/></h1>
 								<form action="authenticate.php" method="post" name="login" id="login">
 									<label for="email" id="emaillabel" >
 										<i class="fa fa-envelope"></i>
@@ -54,14 +54,14 @@
 										<i class="fa fa-lock"></i>
 									</label>
 									<input type="password" name="password" placeholder="Password" id="password" required>
-                                    
+
                                   <input  id="go" type="submit" value="Login">
 								</form>
 							</div>
 						</div>
 					</div>
           </div>
-            
+
 
         </div>
         <!-- /.container-fluid -->

@@ -20,14 +20,14 @@ try {
   // Connect and create the PDO object
   $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
   $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-	
-	
+
+
      //    Get the Peer Group Data   ///
 
   $query = "SELECT * FROM tbl_fs_peers WHERE bl_live = 1 AND fs_trend_line = '0' ;";
   $peer_data = $peer_colour = $peer_name = '';
-    
-  $result = $conn->prepare($query); 
+
+  $result = $conn->prepare($query);
   $result->execute();
 
   // Parse returned data
@@ -37,12 +37,12 @@ try {
 	  $peer_name .= '"'.$row['fs_peer_name'].'",';
 	  //$peer_data .= "[ ".$row['fs_peer_return'].",".$row['fs_peer_volatility'].", '".$row['fs_peer_name']."', 'point { size: 4; fill-color: ".$row['fs_peer_color']."; }','".$row['fs_peer_volatility']."% Volatility'],";
   }
-	
-	
+
+
 $query = "SELECT * FROM tbl_fs_peers WHERE bl_live = 1 AND fs_trend_line = '1' ;";
   $peer_data_line = '';
-    
-  $result = $conn->prepare($query); 
+
+  $result = $conn->prepare($query);
   $result->execute();
 
   // Parse returned data
@@ -51,7 +51,7 @@ $query = "SELECT * FROM tbl_fs_peers WHERE bl_live = 1 AND fs_trend_line = '1' ;
 	  $peer_colour_line .= '"'.$row['fs_peer_color'].'",';
 	  $peer_name_line .= '"'.$row['fs_peer_name'].'",';
   }
-	
+
 
 
   $conn = null;        // Disconnect
@@ -113,9 +113,9 @@ catch(PDOException $e) {
 
     <div class="container-fluid">
       <div class="row">
-        
+
 		  <div class="col-md-3">
-		  
+
 			<div class="col-md-12 whtbrdr">
 
 				  <p class="welcomename">Hello <?=$_SESSION['name'];?></p>
@@ -126,30 +126,30 @@ catch(PDOException $e) {
 				  <a class="btn-grey2 w100" href="#"><i data-feather="download"></i> Download as PDF</a>
 
         	</div>
-		  
+
 		</div>
 
 
         <div class="col-md-9">
-			  
+
 			  <div class="col-md-12 whtbrdr">
 
-			
+
 				<h1 class="h2 mt-3"><strong>Peer Group Comparison</strong></h1>
 				<!--  #Data_accurate --><p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p><!--  #Data_accurate -->
 
 						  <!-- <div id="chart_div" style="width: 900px; height: 500px;"></div>  -->
 					<canvas class="chartjs-render-monitor" id="scatterchart"></canvas>
-						  
 
 
-            
-          </div>  
+
+
+          </div>
         </div>
       </div>
     </div>
-	  
-	  
+
+
 	<!-- Footer -->
       <footer class="col-md-12 mt-5">
        <div class="auto-LogOut"></div>
@@ -160,8 +160,8 @@ catch(PDOException $e) {
         </div>
       </footer>
       <!-- End of Footer -->
-	  
-	  
+
+
 <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -196,7 +196,7 @@ catch(PDOException $e) {
       </div>
     </div>
   </div>
-	  
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -204,7 +204,7 @@ catch(PDOException $e) {
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-      
+
     <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <!-- Icons -->
@@ -214,14 +214,14 @@ catch(PDOException $e) {
     <script>
       feather.replace()
     </script>
-	
+
     <script type="text/javascript">
-		
-		
+
+
 	function drawChart() {
 	 //Chart.defaults.global.legend.display = false;
      var ctx = document.getElementById('scatterchart');
-		
+
 		Chart.pluginService.register({
 		  beforeRender: function(chart) {
 			if (chart.config.options.showAllTooltips) {
@@ -266,7 +266,7 @@ catch(PDOException $e) {
 			}
 		  }
 		});
-		
+
 		var chart = new Chart(ctx, {
 		   type: 'scatter',
 		   labels: 'Peer Groups',
@@ -331,7 +331,7 @@ catch(PDOException $e) {
 					}
 				}]
         }
-			   
+
 		   }
 		});
 
@@ -348,12 +348,12 @@ tooltips: {
 }
 
 */
-		
-	$( document ).ready(function() {	
+
+	$( document ).ready(function() {
 		drawChart();
     });
 
-        
+
     </script>
   </body>
 </html>
