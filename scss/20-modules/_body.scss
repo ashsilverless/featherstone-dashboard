@@ -1,0 +1,24 @@
+/*! == BODY == */
+
+.sidebar {
+    padding:2rem 1rem 1rem;
+    .prompt {
+        border-bottom:1px solid $color_grey_light;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+    .last-login {
+        border-bottom:1px solid $color_grey_light;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        span {
+            display: block;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+    }
+}
+
+.main-content {
+    padding:2rem 1rem 1rem;
+}

@@ -16,10 +16,10 @@ try {
 
 	$query = "SELECT * FROM tbl_fsusers where fs_client_code LIKE '$client_code' AND bl_live = 1;";
 
-    $result = $conn->prepare($query); 
+    $result = $conn->prepare($query);
     $result->execute();
-	
-	while($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+
+	while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
 		$clientData[] = $row;
 	}
@@ -31,44 +31,10 @@ try {
 catch(PDOException $e) {
   echo $e->getMessage();
 }
-
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="apple-touch-icon" sizes="57x57" href="../favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
-    <link rel="manifest" href="../favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="../favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#333">
+<?php define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/header.php');?>
 
-    <title>Dashboard</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../css/dashboard.css" rel="stylesheet">
-
-  </head>
-
-  <body>
     <nav class="navbar navbar-dark sticky-top bg-dkgrey flex-md-nowrap p-0 col-md-12 mb-3">
 		<div id="logo" class="col-md-2"><img src="images/fs_logo1.jpg" alt="" width="96%" align="left"/></div>
 		<div id="topmenu" class="col-md-10 flex-md-nowrap">
@@ -83,9 +49,9 @@ catch(PDOException $e) {
 
     <div class="container-fluid">
       <div class="row">
-        
+
 		  <div class="col-md-3">
-		  
+
 			<div class="col-md-12 whtbrdr">
 
 				  <p class="welcomename">Hello <?=$_SESSION['name'];?></p>
@@ -96,17 +62,17 @@ catch(PDOException $e) {
 				  <a class="btn-grey2 w100" href="#"><i data-feather="download"></i> Download as PDF</a>
 
         	</div>
-		  
+
 		</div>
 
 
         <div class="col-md-9">
-			  
+
 		  <div class="col-md-12 whtbrdr">
 
-			
+
 			<h1 class="h2 mt-3 mb-5"><strong>Account Settings</strong></h1>
-			
+
 			<?php if($msg=='updated'){?>
 			  <fieldset class="whtbrdr">
 				<div id='updated'>
@@ -114,7 +80,7 @@ catch(PDOException $e) {
 				</div>
 			</fieldset>
 			<?php } ?>
-			  
+
 			<!-- ##########################		     Client Settings    ####################### -->
 			<form action="editclient.php" method="post" id="editclient" name="editclient" class="mt-5">
 				<div class="col-md-2" style="float:left;">
@@ -179,13 +145,13 @@ catch(PDOException $e) {
 				<input id="submit" type="submit" name="submit" value="Save Changes" />
 			</form>
 			<div class="clearfix"></div>
-            
-          </div>  
+
+          </div>
         </div>
       </div>
     </div>
-	  
-	  
+
+
 	<!-- Footer -->
 	  <div class="auto-LogOut"></div>
       <footer class="col-md-12 mt-5">
@@ -196,8 +162,8 @@ catch(PDOException $e) {
         </div>
       </footer>
       <!-- End of Footer -->
-	  
-	  
+
+
 <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -232,7 +198,7 @@ catch(PDOException $e) {
       </div>
     </div>
   </div>
-	  
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -240,7 +206,7 @@ catch(PDOException $e) {
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-      
+
     <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <!-- Icons -->
@@ -250,7 +216,7 @@ catch(PDOException $e) {
     <script>
       feather.replace()
     </script>
-	
+
     <script type="text/javascript">
 
 		$('#newpassword, #confirmpassword').on('keyup', function() {
@@ -262,7 +228,7 @@ catch(PDOException $e) {
 			$('#submit').prop('disabled', true);
 		  }
 		});
-        
+
     </script>
   </body>
 </html>

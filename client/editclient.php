@@ -12,8 +12,7 @@ $newpassword = sanSlash($_POST['newpassword']);
 $confirmpassword = sanSlash($_POST['confirmpassword']);
 $hashToStoreInDb = password_hash($confirmpassword, PASSWORD_DEFAULT);
 
-$client_code =$_POST['client_code']; 
-
+$client_code =$_POST['client_code'];
 
 $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
 
