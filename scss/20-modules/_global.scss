@@ -25,6 +25,7 @@ body {
 .login {
     display: flex;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
     &__inner {
         padding:5rem 7.5rem;
