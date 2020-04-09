@@ -1,14 +1,10 @@
 <?php
 include 'inc/db.php';     # $host  -  $user  -  $pass  -  $db
 
-
 /*
 ini_set ("display_errors", "1");
 error_reporting(E_ALL);
     */
-
-
-
 
 $user_id = $_SESSION['featherstone_uid'];
 $client_code = $_SESSION['featherstone_cc'];
@@ -48,60 +44,62 @@ require_once(__ROOT__.'/page-sections/header-elements.php');
 require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 ?>
 
-		  <div class="col-md-9">
+		    <div class="col-md-9">
 
-			  <div class="col-md-12 whtbrdr">
+                <div class="border-box main-content">
 
-				  <h1 class="h2 mt-3"><strong>Holdings & Asset Allocation</strong></h1>
-					<!--  #Data_accurate --><p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p><!--  #Data_accurate -->
-					<div class="container">
+                    <div class="main-content__head">
+                        <h1 class="heading heading__1">Holdings & Asset Allocation</h1>
+                        <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
+                    </div>
 
-					  <div class="row">
-						  <div class="col-md-4">
-							  <canvas class="my-4 w-100 chartjs-render-monitor" id="piechart" height="286"></canvas>
-						  </div>
+                      <div class="container">
+                          <div class="row">
+                              <div class="col-md-4">
+                                <canvas class="my-4 w-100 chartjs-render-monitor" id="piechart" height="286"></canvas>
+                            </div>
+                              <div class="col-md-8">
+                              <table class="table table-sm table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>Fund</th>
+                                    <th>Portfolio Weighting</th>
+                                    <th></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
 
-						<div class="col-md-8">
-							<table class="table table-sm table-striped">
-							  <thead>
-								<tr>
-								  <th>Fund</th>
-								  <th>Portfolio Weighting</th>
-								  <th></th>
-								</tr>
-							  </thead>
-							  <tbody>
+                                    <?php foreach($assetData as $asset) {
+                                      $assetsData .= $asset['fs_growth_steady'].',';
+                                      $assetsID .= $asset['id'].',';
+                                      $assetsName .= "'".$asset['fs_asset_name']."',";
+                                    ?>
 
-								  <?php foreach($assetData as $asset) {
-								  	$assetsData .= $asset['fs_growth_steady'].',';
-									$assetsID .= $asset['id'].',';
-									$assetsName .= "'".$asset['fs_asset_name']."',";
-								  ?>
+                                      <tr>
+                                        <td class="head<?=$asset['id'];?> normal"><?=$asset['fs_asset_name'];?></td>
+                                        <td class="head<?=$asset['id'];?> normal"><?=$asset['fs_growth_steady'];?></td>
+                                        <td class="head<?=$asset['id'];?> normal"><a href="#" class="toggler indicator" data-prod-name="<?=$asset['id'];?>"><i class="fas fa-caret-up arrow118"></i></a> </td>
+                                      </tr>
+                                    <tr class="<?=$asset['id'];?>" style="font-size:0.8em; background-color:#333; font-weight:bold; display:none;">
+                                        <td colspan="3"><p><?=$asset['fs_asset_narrative'];?></p> </td>
+                                    </tr>
+                                    <?php }?>
+                                </tbody>
+                              </table>
+                          </div>
+                          </div><!--row-->
+                      </div>
 
-									<tr>
-									  <td class="head<?=$asset['id'];?> normal"><?=$asset['fs_asset_name'];?></td>
-									  <td class="head<?=$asset['id'];?> normal"><?=$asset['fs_growth_steady'];?></td>
-									  <td class="head<?=$asset['id'];?> normal"><a href="#" class="toggler indicator" data-prod-name="<?=$asset['id'];?>"><i class="fas fa-caret-up arrow118"></i></a> </td>
-									</tr>
-								  <tr class="<?=$asset['id'];?>" style="font-size:0.8em; background-color:#333; font-weight:bold; display:none;">
-									  <td colspan="3"><p><?=$asset['fs_asset_narrative'];?></p> </td>
-								  </tr>
-								  <?php }?>
-							  </tbody>
-							</table>
-						</div>
-					  </div>
-
-				  </div>
-
-			  </div>
-
-
-		  </div>
+                </div>
 
 
-      </div>
+
+			</div><!--9-->
+
+
+		</div>
     </div>
+</div>
 
 
 	<!-- Footer -->

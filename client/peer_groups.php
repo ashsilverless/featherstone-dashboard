@@ -46,8 +46,6 @@ $query = "SELECT * FROM tbl_fs_peers WHERE bl_live = 1 AND fs_trend_line = '1' ;
 	  $peer_name_line .= '"'.$row['fs_peer_name'].'",';
   }
 
-
-
   $conn = null;        // Disconnect
 
 }
@@ -64,24 +62,18 @@ require_once(__ROOT__.'/page-sections/header-elements.php');
 require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 ?>
 
-        <div class="col-md-9">
+    <div class="col-md-9">
 
-			  <div class="col-md-12 whtbrdr">
-
-
-				<h1 class="h2 mt-3"><strong>Peer Group Comparison</strong></h1>
-				<!--  #Data_accurate --><p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p><!--  #Data_accurate -->
-
-						  <!-- <div id="chart_div" style="width: 900px; height: 500px;"></div>  -->
-					<canvas class="chartjs-render-monitor" id="scatterchart"></canvas>
-
-
-
-
-          </div>
+        <div class="border-box main-content">
+              <div class="main-content__head">
+                  <h1 class="heading heading__1">Peer Group Comparison</h1>
+                  <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
+              </div>
+              <canvas class="chartjs-render-monitor" id="scatterchart"></canvas>
         </div>
-      </div>
     </div>
+  </div>
+</div>
 
 
 	<!-- Footer -->
@@ -192,22 +184,22 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 			  datasets: [{
 				 label: [<?=substr($peer_name_line, 0, -1);?>],
 				 data: [<?=substr($peer_data_line, 0, -1);?>],
-				 borderColor: 'red',
+				 borderColor: '#629FD6',
 				 borderWidth: 1,
-				 pointBackgroundColor: [<?=substr($peer_colour_line, 0, -1);?>],
-				 pointBorderColor: [<?=substr($peer_colour_line, 0, -1);?>],
-				 pointRadius: 8,
-				 pointHoverRadius: 8,
+				 pointBackgroundColor:'#629FD6',
+				 pointBorderColor:'#629FD6',
+				 pointRadius: 3,
+				 pointHoverRadius: 3,
 				 fill: false,
 				 tension: 0,
 				 showLine: true
 			  	 }, {
 				 label: [<?=substr($peer_name, 0, -1);?>],
 				 data: [<?=substr($peer_data, 0, -1);?>],
-				 pointBackgroundColor: [<?=substr($peer_colour, 0, -1);?>],
-				 pointBorderColor: [<?=substr($peer_colour, 0, -1);?>],
-				 pointRadius: 8,
-				 pointHoverRadius: 8
+				 pointBackgroundColor: '#849db3',
+				 pointBorderColor: '#849db3',
+				 pointRadius: 3,
+				 pointHoverRadius: 3
 			  }]
 		   },
 		   options: {
@@ -216,22 +208,26 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 			 },
 			  showAllTooltips: true,
 			  tooltips: {
-				 backgroundColor: 'rgba(255, 255, 255, 0.1)',
+				 backgroundColor: 'rgba(255, 255, 255, 0)',
 				 bodyFontColor: '#FFF',
 				 displayColors: false,
+                 defaultFontFamily: 'mr-eaves-modern, sans-serif',
 				 callbacks: {
 					label: function(tooltipItem, data) {
 					   var tLabel = data.datasets[tooltipItem.datasetIndex].label[tooltipItem.index];
 					   var yLabel = tooltipItem.yLabel;
-					   return tLabel + '    ' + yLabel.toFixed(2) + '% Volatility';
+					   return tLabel;
 					}
 				 }
 			  },
 			 scales: {
+
 				yAxes: [{
 					scaleLabel: {
 					  display: true,
-					  labelString: 'Volatility %'
+					  labelString: 'Annualised Return(%)',
+                      defaultFontFamily: 'mr-eaves-modern, sans-serif',
+                      fontStyle: 200,
 					},
 					gridLines: {
 					  display: true ,
@@ -241,7 +237,10 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 				xAxes: [{
 					scaleLabel: {
 					  display: true,
-					  labelString: 'Return £'
+					  labelString: 'Annualised Volatility(%)',
+                      defaultFontFamily: 'mr-eaves-modern, sans-serif',
+                      fontStyle: 200,
+                      defaultFontSize:25,
 					},
 					gridLines: {
 					  display: true ,

@@ -73,13 +73,13 @@ require_once(__ROOT__.'/page-sections/header-elements.php');
 require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 ?>
         <div class="col-md-9">
+            <div class="border-box main-content">
+                  <div class="main-content__head">
+                      <h1 class="heading heading__1">Current Investment Themes</h1>
+                      <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
+                  </div>
 
-			  <div class="col-md-12 whtbrdr">
-
-
-					<h1 class="h2 mt-3"><strong>Current Investment Themes</strong></h1>
-					<!--  #Data_accurate --><p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p><!--  #Data_accurate -->
-					<h2><?=$_SESSION['username'];?></h2>
+					<h2 class="heading heading__2"><?=$user_name;?></h2>
 					<div class="container">
 
 					  <div class="row">
@@ -87,13 +87,13 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 							  <canvas class="my-4 w-100 chartjs-render-monitor" id="linechart" height="400"></canvas>
 						  </div>
 					  </div>
+            </div>
+		</div><!--9-->
 
-				  </div>
 
-				</div>
-			</div>
-      </div>
+		</div>
     </div>
+</div>
 
 
 	<!-- Footer -->
