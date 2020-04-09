@@ -36,11 +36,11 @@ h1, h2, h3 ,h4, h5, h6,
     color: $color_green;
   }
   &__4 {
-    font: ($font_size*1.2)+px / ($font_line-height*2)+px $font_primary;
+    font: ($font_size*1)+px / ($font_line-height*.8)+px $font_secondary;
   }
   &__5 {
-    font: ($font_size*1.2)+px / ($font_line-height*1.5)+px $font_secondary;
-
+    font: ($font_size*0.8)+px / ($font_line-height*.5)+px $font_secondary;
+    font-weight: 200;
   }
   &__6 {
     font: ($font_size*.85)+px / ($font_line-height*1.5)+px $font_secondary;

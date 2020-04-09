@@ -32,137 +32,76 @@ catch(PDOException $e) {
   echo $e->getMessage();
 }
 ?>
-<?php define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__.'/header.php');?>
+<?php
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/header.php');
+require_once(__ROOT__.'/page-sections/header-elements.php');
+require_once(__ROOT__.'/page-sections/sidebar-elements.php');
+?>
 
-    <nav class="navbar navbar-dark sticky-top bg-dkgrey flex-md-nowrap p-0 col-md-12 mb-3">
-		<div id="logo" class="col-md-2"><img src="images/fs_logo1.jpg" alt="" width="96%" align="left"/></div>
-		<div id="topmenu" class="col-md-10 flex-md-nowrap">
-			<div id="menuitems" class="mt-4">
-				<a class="btn-grey2 " href="home.php">Daily Valuation Data</a>
-				<a class="btn-grey2  active" href="assets.php">Holdings &amp; Asset Allocation</a>
-				<a class="btn-grey2 " href="current_investment.php">Current Investment Themes</a>
-				<a class="btn-grey2 " href="peer_groups.php">Peer Group Comparison</a>
+    <div class="col-md-9">
+        <div class="border-box main-content">
+            <div class="main-content__head">
+                <h1 class="heading heading__1"><strong>Account Settings</strong></h1>
+            </div>
+
+		    <form action="editclient.php" method="post" id="editclient" name="editclient" class="settings">
+
+                <div class="fixed-details">
+                    <h2 class="heading heading__2">Details</h2>
+                    <label for="user_name" id="userlabel" >User Name</label>
+                    <input type="text" id="user_name" name="user_name" value="<?=$clientData[0]['user_name'];?>">
+                    <label for="email_address" id="emaillabel" >Email</label>
+                    <input type="text" id="email_address" name="email_address" value="<?=$clientData[0]['email_address'];?>">
+                </div>
+
+                <div class="variable-details">
+                    <h2 class="heading heading__2">Change Password</h2>
+                    <label for="password" id="currentpasswordlabel" >Current Password</label>
+                    <input type="password" id="password" name="password" value="">
+
+                    <label for="newpassword" id="newpasswordlabel" >New Password</label>
+                    <input type="password" id="newpassword" name="newpassword" value="">
+
+                    <label for="confirmpassword" id="confirmpasswordlabel" >Confirm Password</label>
+                    <input type="password" id="confirmpassword" name="confirmpassword" value="">
+                </div>
+
+                <div class="confirm-message">
+                    <span id="message"></span>
+                </div>
+                <!-- ##########################		     Client Settings    ####################### -->
+                <input name="client_code" type="hidden" id="client_code" value="<?=$client_code?>">
+
+                <input id="submit" type="submit" name="submit" value="Save Changes" />
+
+            </form>
+
+        </div><!--border box-->
+
+		<?php if($msg=='updated'){?>
+		  <fieldset class="whtbrdr">
+			<div id='updated'>
+			<h3>Account Settings Successfully Updated.</h3>
 			</div>
-		</div>
-    </nav>
+		</fieldset>
+		<?php } ?>
 
-    <div class="container-fluid">
-      <div class="row">
-
-		  <div class="col-md-3">
-
-			<div class="col-md-12 whtbrdr">
-
-				  <p class="welcomename">Hello <?=$_SESSION['name'];?></p>
-				  <p class="smaller">Not you ?  Click <a href="#">here</a></p>
-				  <p class="small mt-4">Last Login:<br><?=$lastlogin;?></p>
-				  <a class="btn-grey2 w100" href="settings.php"><i data-feather="settings"></i> Account Settings</a>
-				  <a class="btn-grey2 w100" href="#" data-toggle="modal" data-target="#logoutModal"><i data-feather="corner-up-left"></i>  Log Out</a>
-				  <a class="btn-grey2 w100" href="#"><i data-feather="download"></i> Download as PDF</a>
-
-        	</div>
-
-		</div>
-
-
-        <div class="col-md-9">
-
-		  <div class="col-md-12 whtbrdr">
-
-
-			<h1 class="h2 mt-3 mb-5"><strong>Account Settings</strong></h1>
-
-			<?php if($msg=='updated'){?>
-			  <fieldset class="whtbrdr">
-				<div id='updated'>
-				<h3>Account Settings Successfully Updated.</h3>
-				</div>
-			</fieldset>
-			<?php } ?>
-
-			<!-- ##########################		     Client Settings    ####################### -->
-			<form action="editclient.php" method="post" id="editclient" name="editclient" class="mt-5">
-				<div class="col-md-2" style="float:left;">
-					<p>Prefix<br>
-						<select name="user_prefix" id="user_prefix">
-						  <option value="Mr" <?php if($clientData[0]['first_name']=='Mr'){?> selected<?php }?>>Mr</option>
-						  <option value="Mrs" <?php if($clientData[0]['first_name']=='Mrs'){?> selected<?php }?>>Mrs</option>
-						  <option value="Miss" <?php if($clientData[0]['first_name']=='Miss'){?> selected<?php }?>>Miss</option>
-						  <option value="Dr" <?php if($clientData[0]['first_name']=='Dr'){?> selected<?php }?>>Dr</option>
-						</select>
-						</p>
-				</div>
-
-				<div class="col-md-5" style="float:left;">
-					<p>First Name<br>
-						<input type="text" id="first_name" name="first_name" style="width:90%" value="<?=$clientData[0]['first_name'];?>"></p>
-				</div>
-
-				<div class="col-md-5" style="float:left;">
-					<p>Surname<br>
-						<input type="text" id="last_name" name="last_name" style="width:90%" value="<?=$clientData[0]['last_name'];?>"></p>
-				</div>
-
-				<!-- #################################### -->
-
-				<div class="col-md-4" style="float:left;">
-					<p>User Name<br>
-						<input type="text" id="user_name" name="user_name" style="width:90%" value="<?=$clientData[0]['user_name'];?>"></p>
-				</div>
-
-				<div class="col-md-4" style="float:left;">
-					<p>Email<br>
-						<input type="text" id="email_address" name="email_address" style="width:90%" value="<?=$clientData[0]['email_address'];?>"></p>
-				</div>
-
-				<div class="col-md-4" style="float:left;">
-					<p>Mobile Phone<br>
-						<input type="text" id="telephone" name="telephone" style="width:90%" value="<?=$clientData[0]['telephone'];?>"></p>
-				</div>
-
-				<!-- #################################### -->
-
-				<div class="col-md-4" style="float:left;">
-					<p>Password <br>
-						<input type="password" id="password" name="password" style="width:90%" value="<?=$clientData[0]['password'];?>"></p>
-				</div>
-
-				<div class="col-md-4" style="float:left;">
-					<p>New Password <br>
-						<input type="password" id="newpassword" name="newpassword" style="width:90%" value=""></p>
-				</div>
-
-				<div class="col-md-4" style="float:left;">
-					<p>Confirm Password <br>
-						<input type="password" id="confirmpassword" name="confirmpassword" style="width:90%" value=""></p>
-					<span id="message"></span>
-				</div>
-
-				<!-- ##########################		     Client Settings    ####################### -->
-				<input name="client_code" type="hidden" id="client_code" value="<?=$client_code?>">
-
-				<input id="submit" type="submit" name="submit" value="Save Changes" />
-			</form>
-			<div class="clearfix"></div>
-
-          </div>
-        </div>
-      </div>
     </div>
+  </div>
+</div>
 
 
-	<!-- Footer -->
-	  <div class="auto-LogOut"></div>
-      <footer class="col-md-12 mt-5">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Featherstone 2020 <?=$user_id;?></span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
+<!-- Footer -->
+<div class="auto-LogOut"></div>
+<footer class="col-md-12 mt-5">
+<div class="container my-auto">
+  <div class="copyright text-center my-auto">
+    <span>Copyright &copy; Featherstone 2020 <?=$user_id;?></span>
+  </div>
+</div>
+</footer>
+<!-- End of Footer -->
 
 <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

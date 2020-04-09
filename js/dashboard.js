@@ -1,5 +1,3 @@
 /* custom scripts */
 
   feather.replace();
-
-

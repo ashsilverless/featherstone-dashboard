@@ -12,6 +12,7 @@
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <!-- Custom Scripts -->
 <script src="js/custom.js"></script>
+<script src="../js/compiled.js"></script>
 <script>
   feather.replace()
 </script>

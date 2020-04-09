@@ -8,8 +8,27 @@ body {
     padding:.75rem 2rem;
     font-weight: 200;
     text-transform: uppercase;
+    &:hover {
+        cursor:pointer;
+    }
     &__raised {
         @include raisedUI
+    }
+    &__toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0;
+        width: 3rem;
+        height: 3rem;
+        padding: 0;
+        color: $color_blue;
+        svg {
+            transition: transform 1s ease;
+        }
+        &.active svg{
+            transform: rotate(180deg);
+        }
     }
 }
 
