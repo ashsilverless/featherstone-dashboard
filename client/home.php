@@ -73,16 +73,16 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 ?>
 
     <div class="col-md-9">
-        <div class="border-box main-content">
+        <div class="border-box main-content daily-data">
             <div class="main-content__head">
                 <h1 class="heading heading__1">Daily Valuation Data</h1>
                 <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
-                <div class="button button__raised button__toggle data-table-toggle">View Charts</div>
+                <div class="button button__raised button__toggle data-toggle">View Charts</div>
 
             </div>
             <h2 class="heading heading__2"><?=$user_name;?></h2>
 
-            <div class="data-section active">
+            <div class="data-section tables">
 
                 <div class="data-table">
                     <div class="data-table__head">
@@ -213,7 +213,7 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 
 
 
-<div class="data-section">
+<div class="data-section chart">
     <div class="container">
 
         <div class="row">

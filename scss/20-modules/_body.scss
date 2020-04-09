@@ -40,6 +40,27 @@
     }
 }
 
+.daily-data {
+    .data-section {
+        overflow:hidden;
+        transition: max-height 0.5s ease;
+        max-height: 0;
+        &.tables {
+            max-height: 150vh;
+        }
+    }
+    &.show-chart {
+        .data-section {
+            &.tables {
+                max-height: 0;
+            }
+            &.chart {
+                max-height: 150vh;
+            }
+        }
+    }
+}
+
 .data-table {
     display: grid;
     margin-bottom:5rem; /*TEMP*/
