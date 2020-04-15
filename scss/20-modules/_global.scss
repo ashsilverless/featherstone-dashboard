@@ -6,7 +6,7 @@ body {
 .button {
     display: block;
     margin-bottom:1rem;
-    padding:.75rem 2rem;
+    padding:.75rem 1rem;
     font-weight: 200;
     text-transform: uppercase;
     &:hover {
@@ -30,6 +30,12 @@ body {
         &.active svg{
             transform: rotate(180deg);
         }
+    }
+    &__inline {
+        display: inline-block;
+    }
+    &__danger {
+        color: red;
     }
 }
 
@@ -71,7 +77,7 @@ form {
         font-weight: 200;
         text-transform: uppercase;
         &:focus {
-            oultine:none;
+            outline:0;
         }
     }
     input[type=submit] {

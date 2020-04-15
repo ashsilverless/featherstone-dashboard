@@ -7,12 +7,12 @@ try {
   $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
   $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-    
+
      //    Get the products   ///
 
   $query = "SELECT DISTINCT isin_code FROM `tbl_fs_fund` where bl_live = 1;";
-    
-  $result = $conn->prepare($query); 
+
+  $result = $conn->prepare($query);
   $result->execute();
 
   // Parse returned data
@@ -31,83 +31,123 @@ catch(PDOException $e) {
 
 $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+<?php
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/header.php');
+require_once('page-sections/header-elements.php');
+?>
 
-    <title>Dashboard</title>
+<div class="container">
+    <div class="border-box main-content daily-data">
+<a href="#" class="button button__raised button__inline">Add Fund</a>
+<h1 class="heading heading__2">Daily & Historical Prices</h1>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+<div class="prices-table">
 
-    <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
-	
-	<!-- Upload script -->
-	<script type="text/javascript" src="js/plupload/plupload.full.min.js"></script>
+<div class="prices-table__head">
+    <div>
+        <h3 class="heading heading__4">Fund Name</h3>
+    </div>
+    <div>
+        <h3 class="heading heading__4">ISIN Code</h3>
+    </div>
+    <div>
+        <h3 class="heading heading__4">Fund SEDOL</h3>
+    </div>
+    <div>
+        <h3 class="heading heading__4">Benchmark</h3>
+    </div>
+    <div>
+        <h3 class="heading heading__4">Current Price</h3>
+        <div class="split">
+            <div><h4 class="heading heading__4">Price</h4></div>
+            <div><h4 class="heading heading__4">As At</h4></div>
+        </div>
+    </div>
+    <div>
+        <h3 class="heading heading__4">Add New Price</h3>
+        <div class="split">
+            <div><h4 class="heading heading__4">Price</h4></div>
+            <div><h4 class="heading heading__4">Date</h4></div>
+        </div>
+    </div>
+    <div></div>
+</div>
 
-  </head>
+        <?php
+        try {
+          // Connect and create the PDO object
+          $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
+          $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-  <body>
+          $codes = array();
+             //    Get the funds   //
 
-	<nav class="navbar navbar-dark sticky-top bg-white flex-md-nowrap p-0">
-		<div id="logo" class="col-md-2"><img src="images/fs_logo1.jpg" alt="" height="110" align="left"/></div>
-		<div id="righthandside" class="col-md-10">
-			<div id="title" style="cleath:both;"><h2><strong>Client Portal Admin Area</strong></h2></div>
-			<div id="menuitems" class="mt-4">
-				<a class="btn btn-admin shadow-sm " href="home.php">Dashboard</a>
-				<a class="btn btn-admin shadow-sm active" href="funds.php">Funds</a>
-				<a class="btn btn-admin shadow-sm" href="assets.php">Asset Allocation &amp; Holdings</a>
-				<a class="btn btn-admin shadow-sm" href="themes.php">Themes</a>
-				<a class="btn btn-admin shadow-sm " href="peers.php">Peers</a>
-				<a class="btn btn-admin shadow-sm" href="clients.php">Clients</a>
-				<a class="btn btn-admin shadow-sm" href="staff.php">Staff</a>
-				
-				<span style="float:right;"><a class="btn btn-grey shadow-sm" href="#" data-toggle="modal" data-target="#logoutModal">Log Out</a></span>
-			</div>
-		</div>
-    </nav>
+            foreach($isincodes as $code) {
+                $query = "SELECT *  FROM `tbl_fs_fund` where isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
 
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block sidebar">
-          <div class="sidebar-sticky mt-115 ml-3">
-			  <h4>Hello <?=$_SESSION['username'];?></h4>
-			  <p>Last Login:<br>1:24pm on Tue 12 Dec 19.</p>
-			  <p><a href="#">Not You? Click here</a></p>
-			  <a class="btn btn-admin shadow-sm" href="#">Account Settings</a>
-			  <a class="btn btn-admin shadow-sm" href="#">Help &amp; Support</a>
-          </div>
-        </nav>
+                $result = $conn->prepare($query);
+                $result->execute();
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
+                  // Parse returned data
+                  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    $codes[] = $row['isin_code'];
+                    $as_at = date('j M y',strtotime($row['correct_at'])); ?>
+        <form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>">
+            <div class="prices-table__account">
+            <div>
+                <h3 class="heading heading__4"><?= $row['fund_name'];?></h3>
+            </div>
+            <div>
+                <h3 class="heading heading__4"><?= $row['isin_code'];?></h3>
+            </div>
+            <div>
+                <h3 class="heading heading__4"><?= $row['fund_sedol'];?></h3>
+            </div>
+            <div>
+                <h3 class="heading heading__4"><?= $row['benchmark'];?></h3>
+            </div>
+            <div>
+                <div class="split">
+                    <div><h4 class="heading heading__4"><?= $row['current_price'];?></h4></div>
+                    <div><h4 class="heading heading__4"><?= $as_at;?></h4></div>
+                </div>
+            </div>
+            <div>
+                <div class="split">
+                    <div><input name="price<?=$row['isin_code'];?>" type="text" id="price<?=$row['isin_code'];?>" title="price" value="0.00" size="4"></div>
+                    <div><input name="pricedate<?=$row['isin_code'];?>" type="text" id="pricedate<?=$row['isin_code'];?>" title="pricedate" value="" size="6"></div>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="button button__raised">Edit</a>
+            </div>
+        </div>
+        <!--<table>
+            <tr class="<?=$row['isin_code'];?>">
+            <td align="center" colspan="10" id="daily_prices<?= $row['isin_code'];?>"></td>
+            </tr>
+            <tr class="<?=$row['isin_code'];?>"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --><!--</td></tr>
+        </table>-->
+        </form>
+        <?php }
+          }
+        $conn = null;        // Disconnect
 
-        <h1 class="h2">Daily & Historical Prices</h1>
-			<a href="#" class="addfund btn btn-add"><i data-feather="plus-square"></i> Add Fund</a>
-			
+        }
+
+        catch(PDOException $e) {
+        echo $e->getMessage();
+        }
+        ?>
+
+</div>
+</div>
+</div>
+
+        <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
 			<div id="funddetails" class="col-md-12"></div>
-			
+
 			<div class="table-responsive mt-5">
 			  <table class="table table-sm table-striped">
 			    <tbody>
@@ -133,18 +173,18 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 					  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 					  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-					  $codes = array();	
+					  $codes = array();
 						 //    Get the funds   //
-						
+
 						foreach($isincodes as $code) {
 							$query = "SELECT *  FROM `tbl_fs_fund` where isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
 
-					  		$result = $conn->prepare($query); 
+					  		$result = $conn->prepare($query);
 					  		$result->execute();
 
 							  // Parse returned data
-							  while($row = $result->fetch(PDO::FETCH_ASSOC)) { 
-								$codes[] = $row['isin_code']; 
+							  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+								$codes[] = $row['isin_code'];
 								$as_at = date('j M y',strtotime($row['correct_at'])); ?>
 				<form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>">
 								  <tr>
@@ -163,7 +203,7 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 								  <tr class="<?=$row['isin_code'];?>" style="font-size:0.8em; background-color:white; font-weight:bold; display:none;">
 									<td align="center" colspan="10" id="daily_prices<?= $row['isin_code'];?>"></td>
 								  </tr>
-					<tr class="<?=$row['isin_code'];?>" style="font-size:0.8em; background-color:white; font-weight:bold; display:none;"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --></td></tr>
+					<tr class="<?=$row['isin_code'];?>" style="font-size:0.8em; background-color:white; font-weight:bold; display:none;"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --><!--</td></tr>
 					  <?php }
 						}
 					  $conn = null;        // Disconnect
@@ -173,25 +213,16 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 					catch(PDOException $e) {
 					  echo $e->getMessage();
 					}
-					?>                   
+					?>
 			      </tbody>
 				</table>
 		  </div>
-			
-			
-			
-		  
-			
-		
-            
-		
-            
-        </main>
+      </main>-->
       </div>
     </div>
 
 
-	  
+
 <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -211,7 +242,7 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
     </div>
   </div>
 
-	  
+
 <!-- Delete Modal-->
   <div class="modal deletefund" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -238,48 +269,48 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-      
+
      <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <!-- Date Picker -->	  
+    <!-- Date Picker -->
 
-	  
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
-	  
-	<!-- Bootstrap Edit in Place --> 
+
+	<!-- Bootstrap Edit in Place -->
 	<link href="be/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
 	<script src="be/js/bootstrap-editable.js"></script>
 	<script src="be/js/moment.min.js"></script>
-	  
+
     <script>
       feather.replace()
     </script>
 
-   
-      
+
+
     <script>
-		
+
 		$(".toggler").click(function(e){
           e.preventDefault();
           $('.'+$(this).attr('data-prod-name')).toggle();
           $('.head'+$(this).attr('data-prod-name')).toggleClass( "highlight normal" );
           $('.arrow'+$(this).attr('data-prod-name'), this).toggleClass("fa-caret-up fa-caret-down");
     	});
-		
+
 		$(".addfund").click(function(e){
           e.preventDefault();
 		  $("#funddetails").load("add_fund.php");
 		});
-		
+
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
 
-		
+
 	function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -289,12 +320,12 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-		
+
 	<?php for($a=0;$a<count($codes);$a++){ ?>
-		
-		
+
+
 		$('#pricedate<?=$codes[$a]?>').datepicker({  format: "yyyy-mm-dd" , todayHighlight: true });
-		
+
 		$("#form<?=$codes[$a]?>").submit(function(e) {
 			e.preventDefault(); // avoid to execute the actual submit of the form.
 			var form = $(this);
@@ -305,10 +336,10 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				   success: function(data){ $("#daily_prices<?=$codes[$a]?>").load("getrcalendarprices.php?dt=<?= $initialDate ;?>&ic=<?=$codes[$a]?>"); }
 				 });
 		});
-		
-		
+
+
 		$("#daily_prices<?=$codes[$a]?>").load("getrcalendarprices.php?dt=<?= $initialDate ;?>&ic=<?=$codes[$a]?>");
-		
+
 		$(document).on('click', '.monthback<?=$codes[$a]?>', function(e) {
             e.preventDefault();
             var dt = getParameterByName('dt',$(this).attr('href'));
@@ -321,11 +352,11 @@ $initialDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
             var dt = getParameterByName('dt',$(this).attr('href'));
             $("#daily_prices<?=$codes[$a]?>").load("getrcalendarprices.php?dt="+dt+"-01&ic=<?=$codes[$a]?>");
         });
-		
-	<?php } ?>	
-    
-		
-	 
+
+	<?php } ?>
+
+
+
 
     </script>
   </body>

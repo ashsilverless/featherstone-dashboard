@@ -9,11 +9,11 @@ try {
   $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
     $query = "SELECT * FROM `tbl_fs_peers` where bl_live > 0 ORDER BY id ASC;";
-	
-    $result = $conn->prepare($query); 
+
+    $result = $conn->prepare($query);
     $result->execute();
-	
-	while($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+
+	while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 		$peerGroup[] = $row;
 	}
 
@@ -26,80 +26,47 @@ catch(PDOException $e) {
 }
 
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+<?php
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/header.php');
+require_once('page-sections/header-elements.php');
+?>
 
-    <title>Dashboard</title>
+<div class="container">
+    <div class="border-box main-content">
+<h1 class="heading heading__2">Peer Comparison</h1>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+<div class="peer-table">
+    <div class="peer-table__head">
+        <h3 class="heading heading__4">Peer</h3>
+        <h3 class="heading heading__4">Return</h3>
+        <h3 class="heading heading__4">Volatility</h3>
+        <h3 class="heading heading__4">Trend Line</h3>
+    </div>
 
-    <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
-	
-	<!-- Upload script -->
-	<script type="text/javascript" src="js/plupload/plupload.full.min.js"></script>
+    <div class="border-box">
 
-  </head>
+    <?php foreach($peerGroup as $peer) {
+        $peer['fs_trend_line'] == '0' ? $trendLine = '<img src="images/square.svg" width="15">' : $trendLine = '<img src="images/check-square.svg" width="15">';
+        ?>
+    <div class="peer-table__item">
+        <h3 class="heading heading__4"><?= $peer['fs_peer_name'];?></h3>
+        <p><?= $peer['fs_peer_return'];?></p>
+        <p><?= $peer['fs_peer_volatility'];?></p>
+        <a href="edittrend.php?id=<?= $peer['id'];?>&tl=<?=$peer['fs_trend_line'];?>" class="btn btn-admin" style="font-size:0.8em; font-weight:bold;"><?=$trendLine;?></a>
+        <a href="edit_peer.php?id=<?= $peer['id'];?>" class="button button__raised">Edit</a>
+        <a href="#" data-href="deletepeer.php?id=<?= $peer['id'];?>" data-toggle="modal" data-target="#confirm-delete" class="button button__raised button__danger">Delete</a>
+    </div><!--item-->
+<?php } ?>
+</div>
+</div><!--table-->
 
-  <body>
+</div>
+</div><!--container-->
+        <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
 
-	<nav class="navbar navbar-dark sticky-top bg-white flex-md-nowrap p-0">
-		<div id="logo" class="col-md-2"><img src="images/fs_logo1.jpg" alt="" height="110" align="left"/></div>
-		<div id="righthandside" class="col-md-10">
-			<div id="title" style="cleath:both;"><h2><strong>Client Portal Admin Area</strong></h2></div>
-			<div id="menuitems" class="mt-4">
-				<a class="btn btn-admin shadow-sm " href="home.php">Dashboard</a>
-				<a class="btn btn-admin shadow-sm " href="funds.php">Funds</a>
-				<a class="btn btn-admin shadow-sm " href="assets.php">Asset Allocation &amp; Holdings</a>
-				<a class="btn btn-admin shadow-sm " href="themes.php">Themes</a>
-				<a class="btn btn-admin shadow-sm active" href="peers.php">Peers</a>
-				<a class="btn btn-admin shadow-sm " href="clients.php">Clients</a>
-				<a class="btn btn-admin shadow-sm " href="staff.php">Staff</a>
-				
-				<span style="float:right;"><a class="btn btn-grey shadow-sm" href="#" data-toggle="modal" data-target="#logoutModal">Log Out</a></span>
-			</div>
-		</div>
-    </nav>
-
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block sidebar">
-          <div class="sidebar-sticky mt-115 ml-3">
-			  <h4>Hello <?=$_SESSION['username'];?></h4>
-			  <p>Last Login:<br>1:24pm on Tue 12 Dec 19.</p>
-			  <p><a href="#">Not You? Click here</a></p>
-			  <a class="btn btn-admin shadow-sm" href="#">Account Settings</a>
-			  <a class="btn btn-admin shadow-sm" href="#">Help &amp; Support</a>
-          </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
-            
 			<div id="peergroups" class="col-md-12 mt-5">
-					<div id="theme_details" class="col-md-8" style="float:left;">		
+					<div id="theme_details" class="col-md-8" style="float:left;">
 					  <h4>Peer Comparison</h4>
 						<table class="table table-sm table-striped">
 							<thead>
@@ -110,7 +77,7 @@ catch(PDOException $e) {
 								  <th width="5%" valign="middle" bgcolor="#FFFFFF"><strong>Trend<br>Line</strong></th>
 								  <th width="20%" valign="middle" bgcolor="#FFFFFF"></td>
 							  </tr>
-							</thead>	
+							</thead>
 							<tbody>
 								<?php foreach($peerGroup as $peer) {
 									$peer['fs_trend_line'] == '0' ? $trendLine = '<img src="images/square.svg" width="15">' : $trendLine = '<img src="images/check-square.svg" width="15">';
@@ -122,15 +89,15 @@ catch(PDOException $e) {
 										<td style="border-right:1px dashed #999;"><a href="edittrend.php?id=<?= $peer['id'];?>&tl=<?=$peer['fs_trend_line'];?>" class="btn btn-admin" style="font-size:0.8em; font-weight:bold;"><?=$trendLine;?></a></td>
                                       <td><a href="edit_peer.php?id=<?= $peer['id'];?>" class="edit btn btn-admin" style="font-size:0.8em; font-weight:bold;">Edit</a><a href="#" data-href="deletepeer.php?id=<?= $peer['id'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.8em; font-weight:bold;">Delete</a></td>
                                   </tr>
-									<?php } ?>             
+									<?php } ?>
 							  </tbody>
 							</table>
 
 
-						
-						
 
-							
+
+
+
 					</div>
 
 
@@ -161,13 +128,13 @@ catch(PDOException $e) {
 					</div>
 
 			</div>
-            
-        </main>
+
+        </main>-->
       </div>
     </div>
 
 
-	  
+
 <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -187,7 +154,7 @@ catch(PDOException $e) {
     </div>
   </div>
 
-	  
+
 <!-- Delete Modal-->
   <div class="modal deletepeer" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -214,47 +181,47 @@ catch(PDOException $e) {
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-      
+
      <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <!-- Date Picker -->	  
+    <!-- Date Picker -->
 	<link rel="stylesheet" href="css/bootstrap-datepicker3.css">
 	<script src="js/bootstrap-datepicker.min.js"></script>
 	<!-- Table Sorter -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.widgets.min.js"></script>
-	
+
 	<!-- Colour Picker -->
 	<script src="js/jscolor.js"></script>
 
     <script>
-		
+
 	$(document).ready(function() {
-		
+
 		feather.replace()
-		
+
 		$(".table").tablesorter();
-		
+
 		$(".edit").click(function(e){
           e.preventDefault();
 		  var peer_id = getParameterByName('id',$(this).attr('href'));
 		  $("#peer").load("edit_peer.php?id="+peer_id);
 		});
-		
+
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
-		
-	});	
 
-		
-		
-		
-		
+	});
 
-		
+
+
+
+
+
+
 	function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -265,7 +232,7 @@ catch(PDOException $e) {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-	 
+
 
     </script>
   </body>
