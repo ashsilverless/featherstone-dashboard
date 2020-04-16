@@ -10,7 +10,8 @@ require_once('page-sections/header-elements.php');
 <div class="container">
     <div class="border-box main-content daily-data">
 <a href="#" class="addasset button button__raised button__inline">Add Asset</a><a href="#" class="expand-panel__cancel-button">Cancel</a>
-<div id="assetdetails" class="expand-panel"></div>
+<div id="assetdetails" class="expand-panel newasset"></div>
+<div id="editasset" class="expand-panel editasset"></div>
 
 <h1 class="heading heading__2">Asset Allocation & Holdings</h1>
 
@@ -49,7 +50,7 @@ require_once('page-sections/header-elements.php');
             <p><?= $show_steady;?></p>
             <p><?= $show_sensible;?></p>
             <p><?= $show_serious;?></p>
-            <p><a href="#?id=<?=$row['id'];?>" class="button button__raised">Edit Asset</a></p>
+            <p><a href="#?id=<?=$row['id'];?>" class="editasset button button__raised">Edit Asset</a></p>
         </div>
         <?php
             $steady += $row['fs_growth_steady'];      $sensible += $row['fs_growth_sensible'];      $serious += $row['fs_growth_serious'];
@@ -242,7 +243,7 @@ require_once('page-sections/header-elements.php');
 		$(".addasset").click(function(e){
           e.preventDefault();
 		  $("#assetdetails").load("add_asset.php");
-          $('.expand-panel').addClass('open');
+          $('.expand-panel.newasset').addClass('open');
           $('.expand-panel__cancel-button').addClass('visible');
 		});
 
@@ -250,13 +251,17 @@ require_once('page-sections/header-elements.php');
           e.preventDefault();
           $('.expand-panel').removeClass('open');
           $('.expand-panel__cancel-button').removeClass('visible');
+          $('.addasset.button').show();
 		});
 
 		$(".editasset").click(function(e){
-          e.preventDefault();
-		  var theme_id = getParameterByName('id',$(this).attr('href'));
-			console.log(theme_id);
-		  $("#assetdetails").load("edit_asset.php?id="+theme_id);
+            e.preventDefault();
+            var theme_id = getParameterByName('id',$(this).attr('href'));
+            $("#editasset").load("edit_asset.php?id="+theme_id);
+            $('.expand-panel.editasset').addClass('open');
+            $('.expand-panel__cancel-button').addClass('visible');
+            $('.addasset.button').hide();
+            //$('.expand-panel__cancel-button').hide();
 		});
 
 		$('#confirm-delete, #confirm-catdelete').on('show.bs.modal', function(e) {

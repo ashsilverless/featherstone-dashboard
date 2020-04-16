@@ -55,7 +55,7 @@
     grid-template-columns: 6fr 2fr;
     grid-column-gap: 2rem;
     .control {
-        @include recessUI;
+        border-left: 1px solid #606060;
         padding: 1rem 2rem;
     }
     &.open {
@@ -226,7 +226,7 @@
         display: inline-block;
     }
     textarea {
-        height: 15rem;
+        height: 20rem;
     }
 }
 
