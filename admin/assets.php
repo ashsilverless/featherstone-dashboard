@@ -9,7 +9,9 @@ require_once('page-sections/header-elements.php');
 
 <div class="container">
     <div class="border-box main-content daily-data">
-<a href="#" class="button button__raised button__inline">Add Asset</a>
+<a href="#" class="addasset button button__raised button__inline">Add Asset</a><a href="#" class="expand-panel__cancel-button">Cancel</a>
+<div id="assetdetails" class="expand-panel"></div>
+
 <h1 class="heading heading__2">Asset Allocation & Holdings</h1>
 
 <div class="asset-table">
@@ -20,50 +22,51 @@ require_once('page-sections/header-elements.php');
         <h3 class="heading heading__4">Sensible</h3>
         <h3 class="heading heading__4">Serious</h3>
     </div>
-    <?php
-    try {
-      // Connect and create the PDO object
-      $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
-      $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-        $query = "SELECT *  FROM `tbl_fs_assets` where bl_live = 1;";
+    <div class="recess-box">
 
-        $result = $conn->prepare($query);
-        $result->execute();
+        <?php
+        try {
+          // Connect and create the PDO object
+          $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
+          $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-              // Parse returned data
-              while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                $row['fs_growth_steady'] == '0' ? $show_steady = '' : $show_steady = $row['fs_growth_steady'].'%';
-                $row['fs_growth_sensible'] == '0' ? $show_sensible = '' : $show_sensible = $row['fs_growth_sensible'].'%';
-                $row['fs_growth_serious'] == '0' ? $show_serious = '' : $show_serious = $row['fs_growth_serious'].'%';
-              ?>
+            $query = "SELECT *  FROM `tbl_fs_assets` where bl_live = 1;";
 
-    <div class="asset-table__item">
-        <p><?= $row['fs_asset_name'];?></p>
-        <p><?= getField('tbl_fs_categories','cat_name','id',$row['cat_id']);?></p>
-        <p><?= $show_steady;?></p>
-        <p><?= $show_sensible;?></p>
-        <p><?= $show_serious;?></p>
-        <p><a href="#?id=<?=$row['id'];?>" class="button button__raised">Edit Asset</a></p>
+            $result = $conn->prepare($query);
+            $result->execute();
+
+                  // Parse returned data
+                  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    $row['fs_growth_steady'] == '0' ? $show_steady = '' : $show_steady = $row['fs_growth_steady'].'%';
+                    $row['fs_growth_sensible'] == '0' ? $show_sensible = '' : $show_sensible = $row['fs_growth_sensible'].'%';
+                    $row['fs_growth_serious'] == '0' ? $show_serious = '' : $show_serious = $row['fs_growth_serious'].'%';
+                  ?>
+
+        <div class="asset-table__item">
+            <p><?= $row['fs_asset_name'];?></p>
+            <p><?= getField('tbl_fs_categories','cat_name','id',$row['cat_id']);?></p>
+            <p><?= $show_steady;?></p>
+            <p><?= $show_sensible;?></p>
+            <p><?= $show_serious;?></p>
+            <p><a href="#?id=<?=$row['id'];?>" class="button button__raised">Edit Asset</a></p>
+        </div>
+        <?php
+            $steady += $row['fs_growth_steady'];      $sensible += $row['fs_growth_sensible'];      $serious += $row['fs_growth_serious'];
+        }
+
+        $conn = null;        // Disconnect
+        $steady < 100 ? $steadyStyle = 'color:red;' : $steadyStyle = 'color:black;';
+        $sensible < 100 ? $sensibleStyle = 'color:red;' : $sensibleStyle = 'color:black;';
+        $$serious < 100 ? $seriousStyle = 'color:red;' : $seriousStyle = 'color:black;';
+        }
+
+        catch(PDOException $e) {
+        echo $e->getMessage();
+        }
+        ?>
+
     </div>
-    <?php
-        $steady += $row['fs_growth_steady'];      $sensible += $row['fs_growth_sensible'];      $serious += $row['fs_growth_serious'];
-    }
-
-    $conn = null;        // Disconnect
-    $steady < 100 ? $steadyStyle = 'color:red;' : $steadyStyle = 'color:black;';
-    $sensible < 100 ? $sensibleStyle = 'color:red;' : $sensibleStyle = 'color:black;';
-    $$serious < 100 ? $seriousStyle = 'color:red;' : $seriousStyle = 'color:black;';
-    }
-
-    catch(PDOException $e) {
-    echo $e->getMessage();
-    }
-    ?>
-
-
-
-
 
 </div>
 
@@ -239,6 +242,14 @@ require_once('page-sections/header-elements.php');
 		$(".addasset").click(function(e){
           e.preventDefault();
 		  $("#assetdetails").load("add_asset.php");
+          $('.expand-panel').addClass('open');
+          $('.expand-panel__cancel-button').addClass('visible');
+		});
+
+        $(".expand-panel__cancel-button").click(function(e){
+          e.preventDefault();
+          $('.expand-panel').removeClass('open');
+          $('.expand-panel__cancel-button').removeClass('visible');
 		});
 
 		$(".editasset").click(function(e){

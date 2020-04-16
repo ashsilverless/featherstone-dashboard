@@ -74,72 +74,78 @@ require_once('page-sections/header-elements.php');
     <div></div>
 </div>
 
-        <?php
-        try {
-          // Connect and create the PDO object
-          $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
-          $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
+<div class="recess-box">
+    <?php
+    try {
+      // Connect and create the PDO object
+      $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
+      $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-          $codes = array();
-             //    Get the funds   //
+      $codes = array();
+         //    Get the funds   //
 
-            foreach($isincodes as $code) {
-                $query = "SELECT *  FROM `tbl_fs_fund` where isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
+        foreach($isincodes as $code) {
+            $query = "SELECT *  FROM `tbl_fs_fund` where isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
 
-                $result = $conn->prepare($query);
-                $result->execute();
+            $result = $conn->prepare($query);
+            $result->execute();
 
-                  // Parse returned data
-                  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    $codes[] = $row['isin_code'];
-                    $as_at = date('j M y',strtotime($row['correct_at'])); ?>
-        <form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>">
-            <div class="prices-table__account">
-            <div>
-                <h3 class="heading heading__4"><?= $row['fund_name'];?></h3>
-            </div>
-            <div>
-                <h3 class="heading heading__4"><?= $row['isin_code'];?></h3>
-            </div>
-            <div>
-                <h3 class="heading heading__4"><?= $row['fund_sedol'];?></h3>
-            </div>
-            <div>
-                <h3 class="heading heading__4"><?= $row['benchmark'];?></h3>
-            </div>
-            <div>
-                <div class="split">
-                    <div><h4 class="heading heading__4"><?= $row['current_price'];?></h4></div>
-                    <div><h4 class="heading heading__4"><?= $as_at;?></h4></div>
-                </div>
-            </div>
-            <div>
-                <div class="split">
-                    <div><input name="price<?=$row['isin_code'];?>" type="text" id="price<?=$row['isin_code'];?>" title="price" value="0.00" size="4"></div>
-                    <div><input name="pricedate<?=$row['isin_code'];?>" type="text" id="pricedate<?=$row['isin_code'];?>" title="pricedate" value="" size="6"></div>
-                </div>
-            </div>
-            <div>
-                <a href="#" class="button button__raised">Edit</a>
+              // Parse returned data
+              while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $codes[] = $row['isin_code'];
+                $as_at = date('j M y',strtotime($row['correct_at'])); ?>
+    <form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>">
+        <div class="prices-table__account">
+        <div>
+            <h3 class="heading heading__4"><?= $row['fund_name'];?></h3>
+        </div>
+        <div>
+            <h3 class="heading heading__4"><?= $row['isin_code'];?></h3>
+        </div>
+        <div>
+            <h3 class="heading heading__4"><?= $row['fund_sedol'];?></h3>
+        </div>
+        <div>
+            <h3 class="heading heading__4"><?= $row['benchmark'];?></h3>
+        </div>
+        <div>
+            <div class="split">
+                <div><h4 class="heading heading__4"><?= $row['current_price'];?></h4></div>
+                <div><h4 class="heading heading__4"><?= $as_at;?></h4></div>
             </div>
         </div>
-        <!--<table>
-            <tr class="<?=$row['isin_code'];?>">
-            <td align="center" colspan="10" id="daily_prices<?= $row['isin_code'];?>"></td>
-            </tr>
-            <tr class="<?=$row['isin_code'];?>"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --><!--</td></tr>
-        </table>-->
-        </form>
-        <?php }
-          }
-        $conn = null;        // Disconnect
+        <div>
+            <div class="split">
+                <div><input name="price<?=$row['isin_code'];?>" type="text" id="price<?=$row['isin_code'];?>" title="price" value="0.00" size="4"></div>
+                <div><input name="pricedate<?=$row['isin_code'];?>" type="text" id="pricedate<?=$row['isin_code'];?>" title="pricedate" value="" size="6"></div>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="button button__raised">Edit</a>
+        </div>
+    </div>
+    <!--<table>
+        <tr class="<?=$row['isin_code'];?>">
+        <td align="center" colspan="10" id="daily_prices<?= $row['isin_code'];?>"></td>
+        </tr>
+        <tr class="<?=$row['isin_code'];?>"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --><!--</td></tr>
+    </table>-->
+    </form>
+    <?php }
+      }
+    $conn = null;        // Disconnect
 
-        }
+    }
 
-        catch(PDOException $e) {
-        echo $e->getMessage();
-        }
-        ?>
+    catch(PDOException $e) {
+    echo $e->getMessage();
+    }
+    ?>
+
+</div>
+
+
+
 
 </div>
 </div>

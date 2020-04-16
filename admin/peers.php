@@ -44,7 +44,7 @@ require_once('page-sections/header-elements.php');
         <h3 class="heading heading__4">Trend Line</h3>
     </div>
 
-    <div class="border-box">
+    <div class="recess-box">
 
     <?php foreach($peerGroup as $peer) {
         $peer['fs_trend_line'] == '0' ? $trendLine = '<img src="images/square.svg" width="15">' : $trendLine = '<img src="images/check-square.svg" width="15">';

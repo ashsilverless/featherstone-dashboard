@@ -8,11 +8,11 @@ try {
 
     $query = "SELECT *  FROM `tbl_fs_categories` where bl_live = 1;";
 
-    $result = $conn->prepare($query); 
+    $result = $conn->prepare($query);
     $result->execute();
 
           // Parse returned data
-          while($row = $result->fetch(PDO::FETCH_ASSOC)) {  
+          while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 			  $cats[] = $row;
 		  }
 
@@ -27,53 +27,66 @@ catch(PDOException $e) {
 
 ?>
 
+<div class="content">
+    <h3 class="heading heading__2">Asset Details</h3>
+    <form action="addasset.php" method="post" id="addtheme" name="addtheme" class="asset-form">
+        <div class="details">
+            <label>Asset Name</label>
+            <input type="text" id="asset_name" name="asset_name">
+            <label>Narrative</label>
+            <textarea name="asset_narrative" id="asset_narrative"></textarea>
+            <h4 class="heading heading__4">Growth</h4>
+            <div class="row">
+                <div class="col-4">
+                    <label>Steady</label>
+                    <input type="text" name="growth_steady" id="growth_steady" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5">
+                </div>
+                <div class="col-4">
+                    <label>Sensible</label>
+                    <input type="text" name="growth_sensible" id="growth_sensible" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5">
+                </div>
+                <div class="col-4">
+                    <label>Serious</label>
+                    <input type="text" name="growth_serious" id="growth_serious" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5">
+                </div>
+            </div>
 
-        
-<form action="addasset.php" method="post" id="addtheme" name="addtheme">
-			<div id="theme_details" class="col-md-6" style="float:left;">
-				
-					<h4>Details</h4>
-					<p>Asset Name<br>
-					<input type="text" id="asset_name" name="asset_name"></p>
-					<p>Narrative<br>
-			  <textarea name="asset_narrative" style="width:90%; min-height:240px;" id="asset_narrative"></textarea></p>
-				<h5>Growth</h5>
-				<div class="col-md-4" style="float:left;">
-				<p>Steady<br>
-					<input type="text" name="growth_steady" id="growth_steady" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5"></p>
-				</div>
-				<div class="col-md-4" style="float:left;">
-				<p>Sensible<br>
-					<input type="text" name="growth_sensible" id="growth_sensible" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5"></p>
-				</div>
-				<div class="col-md-4" style="float:left;">
-				<p>Serious<br>
-					<input type="text" name="growth_serious" id="growth_serious" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5"></p>
-				</div>
-	
-			</div>
-	
-			<div id="asset_categories" class="col-md-3" style="float:left;"><h4>Categories</h4><!--<a href="#" class="addasset"><i data-feather="plus-square"></i> Edit Categories</a>-->
-				<?php $idString = ''; for($a=0;$a<count($cats);$a++){ $idString .= $cats[$a]['id'].'|';?>
-					<label><input type="radio" name="cat" value="<?=$cats[$a]['id'];?>" id="cat">  <?=$cats[$a]['cat_name'];?></label><a href="#" data-href="deletecat.php?id=<?=$cats[$a]['id'];?>" data-toggle="modal" data-target="#confirm-catdelete" class="delcat"><i data-feather="trash-2"></i></a><br>
-				<?php } ?>
-				<p>Add Category<br>
-				<input type="text" id="cat_new" name="cat_new"><input type="hidden" id="cat_ids" name="cat_ids" value="<?=substr($idString, 0, -1);?>"></p>
-			</div>
-	
-	
-			<div id="fund_actions" class="col-md-3" style="float:left;">
-				<h5>Asset Actions</h5>
-				<input type="submit" class="btn btn-grey" value="Add Asset">
-			</div>
-	
-</form>			
-		<div class="col-md-8 offset-2 mt-3 mb-3"><hr></div>
+
+
+        </div><!--details-->
+
+        <div class="categories">
+            <label>Categories</label>
+            <div class="inner">
+                <?php $idString = ''; for($a=0;$a<count($cats);$a++){ $idString .= $cats[$a]['id'].'|';?>
+                <div class="radio-item">
+                    <input class="star-marker" type="radio" name="cat" value="<?=$cats[$a]['id'];?>" id="cat<?=$cats[$a]['id'];?>">
+                    <?php define('__ROOT__', dirname(dirname(__FILE__)));
+                    include(__ROOT__.'/admin/images/star.php'); ?>
+                    <label for="cat<?=$cats[$a]['id'];?>"><?=$cats[$a]['cat_name'];?></label>
+                </div>
+                <a href="#" data-href="deletecat.php?id=<?=$cats[$a]['id'];?>" data-toggle="modal" data-target="#confirm-catdelete" class=" button button__delete elcat"><i data-feather="trash-2"></i></a><br>
+                <?php } ?>
+            </div><!--inner-->
+            <label>Add Category</label>
+            <input type="text" id="cat_new" name="cat_new"><input type="hidden" id="cat_ids" name="cat_ids" value="<?=substr($idString, 0, -1);?>">
+            <a href="#" class="addasset button button__raised button__inline">Add Category</a>
+        </div>
+
+    </form>
+</div>
+
+<div class="control">
+    <h3 class="heading heading__2">Asset Actions</h3>
+    <div id="fund_actions">
+        <input type="submit" class="button button__raised" value="Save Changes">
+    </div>
+</div>
 
     <script>
 
 	feather.replace();
-		
+
 	function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -83,7 +96,7 @@ catch(PDOException $e) {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-		
+
     </script>
   </body>
 </html>

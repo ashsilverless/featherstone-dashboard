@@ -18,8 +18,6 @@ if($_GET['page']!=""){
 	$page=$_GET['page'];
 }
 
-
-	
 if($page==""){
 	$page = 0;
 }
@@ -38,27 +36,27 @@ try {
   $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
     $query = "SELECT id FROM `tbl_fsadmin` where bl_live > 0 ORDER BY last_name ASC;";
-	
-    $result = $conn->prepare($query); 
+
+    $result = $conn->prepare($query);
     $result->execute();
-	
-	while($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+
+	while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 		$rows[] = $row;
 	}
 
 	$num_rows = count($rows);
-	
+
 	$totalPageNumber = ceil($num_rows / $recordsPerPage);
 	$offset = $page*$recordsPerPage;
-	
+
 	debug($num_rows);
-	
+
 	$query = "SELECT *  FROM `tbl_fsadmin` where bl_live > 0 ORDER BY last_name ASC LIMIT $offset,$recordsPerPage;";
 
-    $result = $conn->prepare($query); 
+    $result = $conn->prepare($query);
     $result->execute();
-	
-	while($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+
+	while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 		$userData[] = $row;
 	}
 
@@ -71,7 +69,7 @@ catch(PDOException $e) {
 }
 
 $rspaging = '<div style="margin:auto; padding:15px 0 15px 0; text-align: center; font-size:16px; font-family: \'Ubuntu\',sans-serif;"><strong>'.$num_rows.'</strong> results in <strong>'.$totalPageNumber.'</strong> pages.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page : ';
-			  
+
 if($page<3){
 	$start=1;
 	$end=7;
@@ -81,9 +79,9 @@ if($page<3){
 }
 
 
-if($end >= $totalPageNumber){ 
+if($end >= $totalPageNumber){
   $endnotifier = "";
-  $end = $totalPageNumber; 
+  $end = $totalPageNumber;
 }else{
   $endnotifier = "...";
 }
@@ -93,94 +91,66 @@ $last = '<a href="?page='.($totalPageNumber-1).'" style="font-size:13px; margin:
 
 $rspaging .=  $frst;
 for($a=$start;$a<=$end;$a++){
-	$a-1 == $page ? $lnk='<strong style="font-size:13px; border: solid 1px #BBB; margin:5px; padding:5px;">'.$a.'</strong>' : $lnk='<a href="?page='.($a-1).'" style="font-size:13px; margin:5px; padding:5px;">'.$a.'</a>'; 
+	$a-1 == $page ? $lnk='<strong style="font-size:13px; border: solid 1px #BBB; margin:5px; padding:5px;">'.$a.'</strong>' : $lnk='<a href="?page='.($a-1).'" style="font-size:13px; margin:5px; padding:5px;">'.$a.'</a>';
 	$rspaging .=  $lnk;
 }
 
 $ipp = '<span style="margin-left:35px;">Show <a href="?rpp=10">10</a>&nbsp;|&nbsp;<a href="?rpp=30">30</a>&nbsp;|&nbsp;<a href="?rpp=50">50</a>&nbsp;|&nbsp;<a href="?rpp=999"><strong>All</strong></a></span>';
-	
+
 $rspaging .= $endnotifier.$last.$ipp.'</div>';
 
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+<?php
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/header.php');
+require_once('page-sections/header-elements.php');
+?>
 
-    <title>Dashboard</title>
+<div class="container">
+    <div class="border-box main-content">
+		<a href="#" class="button button__raised button__inline">Add New Staff Member</a>
+		<h1 class="heading heading__2">Staff Members</h1>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+<div class="staff-table">
+    <div class="staff-table__head">
+        <h3 class="heading heading__4">Staff Member</h3>
+        <h3 class="heading heading__4">Email Address</h3>
+        <h3 class="heading heading__4">Type</h3>
+        <h3 class="heading heading__4">Last Login</h3>
+    </div>
 
-    <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
-	
-	<!-- Upload script -->
-	<script type="text/javascript" src="js/plupload/plupload.full.min.js"></script>
+    <div class="recess-box">
+		<?php
+		foreach($userData as $staff) {?>
+    <div class="staff-table__item">
 
-  </head>
+<h3 class="heading heading__4"><?= $staff['user_prefix'].' '.$staff['first_name'].' '.$staff['last_name'];?></h3>
+<p><?= $staff['email_address'];?></p>
 
-  <body>
+<p><?= $user_type[$staff['agent_level']];?></p>
 
-	<nav class="navbar navbar-dark sticky-top bg-white flex-md-nowrap p-0">
-		<div id="logo" class="col-md-2"><img src="images/fs_logo1.jpg" alt="" height="110" align="left"/></div>
-		<div id="righthandside" class="col-md-10">
-			<div id="title" style="cleath:both;"><h2><strong>Client Portal Admin Area</strong></h2></div>
-			<div id="menuitems" class="mt-4">
-				<a class="btn btn-admin shadow-sm " href="home.php">Dashboard</a>
-				<a class="btn btn-admin shadow-sm " href="funds.php">Funds</a>
-				<a class="btn btn-admin shadow-sm " href="assets.php">Asset Allocation &amp; Holdings</a>
-				<a class="btn btn-admin shadow-sm " href="themes.php">Themes</a>
-				<a class="btn btn-admin shadow-sm " href="peers.php">Peers</a>
-				<a class="btn btn-admin shadow-sm " href="clients.php">Clients</a>
-				<a class="btn btn-admin shadow-sm active" href="staff.php">Staff</a>
-				
-				<span style="float:right;"><a class="btn btn-grey shadow-sm" href="#" data-toggle="modal" data-target="#logoutModal">Log Out</a></span>
-			</div>
-		</div>
-    </nav>
+<p><?= date('H:i j M y',strtotime($staff['last_logged_in']));?></p>
 
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block sidebar">
-          <div class="sidebar-sticky mt-115 ml-3">
-			  <h4>Hello <?=$_SESSION['username'];?></h4>
-			  <p>Last Login:<br>1:24pm on Tue 12 Dec 19.</p>
-			  <p><a href="#">Not You? Click here</a></p>
-			  <a class="btn btn-admin shadow-sm" href="#">Account Settings</a>
-			  <a class="btn btn-admin shadow-sm" href="#">Help &amp; Support</a>
-          </div>
-        </nav>
+<a href="#?id=<?= $staff['id'];?>" class="button button__raised">Edit</a>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
+	</div>
+<?php } ?>
+</div><!--recess-->
+
+
+</div><!--staff-table-->
+</div>
+</div><!--container-->
+
+        <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
 
         <h1 class="h2">Staff</h1>
 			<?php if($_SESSION['agent_level']>1){ ?><a href="#" class="add btn btn-add"><i data-feather="plus-square"></i> Add New Staff</a><?php }?>
-			
+
 			<div class="col-md-10  table-responsive mt-5">
 			  <table class="table table-sm table-striped">
-			    
-				<thead>	
+
+				<thead>
 					<tr>
 				      <th width="30%" bgcolor="#FFFFFF"><strong>Staff Member <i data-feather="maximize-2" style="transform: rotate(-45deg)"></i></strong></td>
 					  <th width="20%" bgcolor="#FFFFFF"><strong>Email Address <i data-feather="maximize-2" style="transform: rotate(-45deg)"></i></strong></td>
@@ -199,27 +169,27 @@ $rspaging .= $endnotifier.$last.$ipp.'</div>';
 								  <td><?= date('H:i j M y',strtotime($staff['last_logged_in']));?></td>
 								  <td><a href="#?id=<?= $staff['id'];?>" class="edit btn btn-admin" style="font-size:0.8em; font-weight:bold;">Edit</a></td>
 							  </tr>
-						<?php } ?>             
+						<?php } ?>
 			      </tbody>
 				</table>
-				
-				
+
+
 		  </div>
-			
+
 			<?=$rspaging;?>
-			
-		  
-			
+
+
+
 		<div class="col-md-8 offset-2 mt-3 mb-3"><hr></div>
-            
+
 		<div id="staffdetails" class="col-md-12 mt-5"></div>
-            
-        </main>
+
+	</main>-->
       </div>
     </div>
 
 
-	  
+
 <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -239,7 +209,7 @@ $rspaging .= $endnotifier.$last.$ipp.'</div>';
     </div>
   </div>
 
-	  
+
 <!-- Delete Modal-->
   <div class="modal deletefund" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -266,50 +236,50 @@ $rspaging .= $endnotifier.$last.$ipp.'</div>';
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-      
+
      <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <!-- Date Picker -->	  
+    <!-- Date Picker -->
 	<link rel="stylesheet" href="css/bootstrap-datepicker3.css">
 	<script src="js/bootstrap-datepicker.min.js"></script>
 	<!-- Table Sorter -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.widgets.min.js"></script>
-	  
+
     <script>
       feather.replace()
     </script>
 
-   
-      
+
+
     <script>
-		
+
 		$(".add").click(function(e){
           e.preventDefault();
 		  $("#staffdetails").load("add_staff.php");
 		});
-		
+
 		$(".edit").click(function(e){
           e.preventDefault();
 		  var staff_id = getParameterByName('id',$(this).attr('href'));
 			console.log(staff_id);
 		  $("#staffdetails").load("edit_staff.php?id="+staff_id);
 		});
-		
+
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
-		
+
 
 $( document ).ready(function() {
-	
+
 	$(".table").tablesorter();
 
 });
 
-		
+
 	function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -320,7 +290,7 @@ $( document ).ready(function() {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-	 
+
 
     </script>
   </body>

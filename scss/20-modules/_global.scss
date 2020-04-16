@@ -37,6 +37,16 @@ body {
     &__danger {
         color: red;
     }
+    &__delete {
+        display: inline-block;
+        margin: 0;
+        width:auto;
+        vertical-align: middle;
+        color: $color_grey_lightest;
+        svg {
+            width:1rem;
+        }
+    }
 }
 
 .full-logo {
@@ -46,6 +56,10 @@ body {
 
 .border-box {
     @include border-box;
+}
+
+.recess-box {
+    @include recessUI;
 }
 
 .login {
@@ -67,7 +81,8 @@ body {
 
 form {
     input,
-    input[type=password] {
+    input[type=password],
+    textarea {
         @include recessUI;
         display: block;
         margin-bottom: 2rem;
@@ -88,6 +103,15 @@ form {
         padding:.75rem 2rem;
         text-transform:uppercase;
     }
+    input[type=checkbox],
+    input[type=radio] {
+        display: inline-block;
+        margin:0 1rem 0 0;
+        width:3rem;
+        height: 3rem;
+        vertical-align: middle;
+    }
+
     label {
         display: block;
         margin-bottom:0;
@@ -98,5 +122,44 @@ form {
     p {
         font-size: $font_size * .8px;
         color: white;
+    }
+    .radio-item {
+        position: relative;
+        display: inline-block;
+        &:before {
+            @include recessUI;
+            content:'';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3rem;
+            height: 3rem;
+        }
+        input {
+            position: absolute;
+            z-index: 50;
+            opacity: 0;
+            cursor: pointer;
+            height: 3rem;
+            width: 3rem;
+        }
+        .star {
+            position: absolute;
+            opacity: 0;
+            top:0.5rem;
+            left: 0.5rem;
+            width:2rem;
+            height: 2rem;
+            polygon {
+                fill:$color_blue;
+            }
+        }
+        label {
+            margin-left: 4rem;
+            padding-top:1rem;
+        }
+    }
+    input.star-marker:checked ~ .star {
+        opacity:1
     }
 }

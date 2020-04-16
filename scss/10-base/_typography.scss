@@ -7,6 +7,8 @@ html body {
 
 body p {
     margin:0;
+    font-size: $font_size *1px;
+    line-height: $font_line-height *1px;
 }
 
 body a {

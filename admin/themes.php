@@ -19,7 +19,7 @@ require_once('page-sections/header-elements.php');
         <h3 class="heading heading__4">Narrative</h3>
     </div>
 
-    <div class="border-box">
+    <div class="recess-box">
 
 <?php
 try {
