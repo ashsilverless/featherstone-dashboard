@@ -1,3 +1,4 @@
+<section>
 <div class="container">
   <div class="row">
       <nav class="col-md-12">
@@ -20,7 +21,7 @@
                       <a class="main-menu__item <?php echo $current_page == 'peers.php' ? 'active':NULL ?>" href="peers.php">Peers</a>
                       <a class="main-menu__item <?php echo $current_page == 'clients.php' ? 'active':NULL ?>" href="clients.php">Clients</a>
                       <a class="main-menu__item <?php echo $current_page == 'staff.php' ? 'active':NULL ?>" href="staff.php">Staff</a>
-                      <a class="button button__raised" href="staff.php">Log Out</a>
+                      <a class="button button__raised" href="#" data-toggle="modal" data-target="#logoutModal">Log Out</a>
                   </div>
               </div>
           </div>

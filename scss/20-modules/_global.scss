@@ -3,6 +3,10 @@ body {
     background-color: $color_grey_mid;
 }
 
+section {
+    min-height: 85vh;
+}
+
 .button {
     display: block;
     margin-bottom:1rem;

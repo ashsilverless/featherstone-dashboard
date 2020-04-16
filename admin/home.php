@@ -3,7 +3,6 @@ include 'inc/db.php';     # $host  -  $user  -  $pass  -  $db
 
 $_GET['nu'] == '1' ? $flag = '2' : $flag = '1';
 
-
 //    Get the graph data
 try {
   // Connect and create the PDO object
@@ -92,27 +91,21 @@ require_once('page-sections/sidebar-elements.php');
 <div class="col-md-9">
     <div class="border-box main-content daily-data">
 
-<div class="row">
-<div class="col-7">
-    <h2 class="heading heading__2">Upload Transaction File</h2>
-    <div id="transfilelist" class="small">Your browser doesn't have Flash, Silverlight or HTML5 support.</div><div id="transcontainer"><a id="picktrans" href="javascript:;" class="d-sm-inline-block btn btn-sm shadow-sm">[Choose File]</a></div><input type="text" id="trans_file" name="trans_file" readonly>
-</div>
-<div class="col-5">
-    <h2 class="heading heading__2">Frequent Tasks</h2>
-    <a href="" class="toggle button button__raised">Update Daily Prices</a>
-    <a href="" class="toggle button button__raised">Edit Client</a>
-    <a href="" class="toggle button button__raised">Create Client</a>
-</div>
-
-</div>
-
+        <div class="row">
+            <div class="col-7">
+                <h2 class="heading heading__2">Upload Transaction File</h2>
+                <div id="transfilelist" class="small">Your browser doesn't have Flash, Silverlight or HTML5 support.</div><div id="transcontainer"><a id="picktrans" href="javascript:;" class="d-sm-inline-block btn btn-sm shadow-sm">[Choose File]</a></div><input type="text" id="trans_file" name="trans_file" readonly>
+            </div>
+            <div class="col-5">
+                <h2 class="heading heading__2">Frequent Tasks</h2>
+                <a href="" class="toggle button button__raised">Update Daily Prices</a>
+                <a href="" class="toggle button button__raised">Edit Client</a>
+                <a href="" class="toggle button button__raised">Create Client</a>
+            </div>
+        </div>
 
     </div>
 </div>
-
-
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
 
 		<!--   Upload TransFile  -->
 
@@ -129,60 +122,18 @@ require_once('page-sections/sidebar-elements.php');
           </div>-->
 
 		<!--<div id="assetdetails" class="col-md-12 mt-5"></div>-->
+</div><!--row-->
+</div><!--container-->
 
-        </main>
-      </div>
-    </div>
-
-
-
-<!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="index.php">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-
-     <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <!-- Date Picker -->
-	<link rel="stylesheet" href="css/bootstrap-datepicker3.css">
-	<script src="js/bootstrap-datepicker.min.js"></script>
-
-    <script>
-      feather.replace()
-    </script>
-
-
+<?php require_once('page-sections/footer-elements.php');
+require_once('modals/delete.php');
+require_once('modals/logout.php');
+require_once(__ROOT__.'/global-scripts.php');?>
 
     <script>
 
 		/* #########################    Trans File Upload and display    ####################### */
 		$("#result").load("showdata.php?f=<?=$flag;?>");
-
 
 		var uploader = new plupload.Uploader({
 			runtimes : 'html5,flash,silverlight,html4',
@@ -229,17 +180,13 @@ require_once('page-sections/sidebar-elements.php');
 					}
 				},
 
-
 				Error: function(up, err) {
 					console.log("\nError #" + err.code + ": " + err.message);
 				}
 			}
 		});
-
 		uploader.init();
-
-	/* #########################    / Trans File Upload and display    ####################### */
-
+	/* ########################    / Trans File Upload and display    ####################### */
 
 		$(".toggler").click(function(e){
           e.preventDefault();
@@ -251,8 +198,6 @@ require_once('page-sections/sidebar-elements.php');
 		Chart.defaults.global.legend.display = false;
 
 /* ##########################################       LINE CHART     ################################################## */
-
-
 
 		var ctxline = document.getElementById('linechart1');
 		var myLineChart = new Chart(ctxline, {
@@ -321,8 +266,6 @@ require_once('page-sections/sidebar-elements.php');
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-
-
 
     </script>
   </body>

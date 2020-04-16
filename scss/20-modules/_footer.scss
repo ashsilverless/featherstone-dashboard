@@ -1,1 +1,12 @@
 /*! == FOOTER == */
+footer {
+    margin-top:2rem;
+    >.container {
+        display: grid;
+        grid-template-columns: auto auto;
+        align-items: center;
+    }
+    .help {
+        text-align: right;
+    }
+}

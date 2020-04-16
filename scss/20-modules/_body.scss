@@ -338,6 +338,21 @@
     }
 }
 
+.trend-line-indicator {
+    @include recessUI;
+    position: relative;
+    width:3rem;
+    height: 3rem;
+    svg {
+        margin: 0.5rem;
+        width:2rem;
+        height: 2rem;
+        polygon {
+            fill:$color_blue;
+        }
+    }
+}
+
 .clients-table {
     display: grid;
     &__head,

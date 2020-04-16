@@ -227,6 +227,7 @@ require_once('page-sections/header-elements.php');
       </div>
     </div>
 
+<?php require_once('page-sections/footer-elements.php');?>
 
 
 <!-- Logout Modal-->
@@ -248,55 +249,10 @@ require_once('page-sections/header-elements.php');
     </div>
   </div>
 
-
-<!-- Delete Modal-->
-  <div class="modal deletefund" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModal">Delete this Fund?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Continue" below if you are ready to<br>delete this fund and all it's data.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-danger btn-ok">Delete</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-
-     <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <!-- Date Picker -->
-
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
-
-	<!-- Bootstrap Edit in Place -->
-	<link href="be/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
-	<script src="be/js/bootstrap-editable.js"></script>
-	<script src="be/js/moment.min.js"></script>
-
-    <script>
-      feather.replace()
-    </script>
-
-
+<?php require_once('page-sections/footer-elements.php');
+require_once('modals/delete.php');
+require_once('modals/logout.php');
+require_once(__ROOT__.'/global-scripts.php');?>
 
     <script>
 
@@ -343,7 +299,6 @@ require_once('page-sections/header-elements.php');
 				 });
 		});
 
-
 		$("#daily_prices<?=$codes[$a]?>").load("getrcalendarprices.php?dt=<?= $initialDate ;?>&ic=<?=$codes[$a]?>");
 
 		$(document).on('click', '.monthback<?=$codes[$a]?>', function(e) {
@@ -352,17 +307,12 @@ require_once('page-sections/header-elements.php');
             $("#daily_prices<?=$codes[$a]?>").load("getrcalendarprices.php?dt="+dt+"-01&ic=<?=$codes[$a]?>");
         });
 
-
         $(document).on('click', '.monthnext<?=$codes[$a]?>', function(e) {
             e.preventDefault();
             var dt = getParameterByName('dt',$(this).attr('href'));
             $("#daily_prices<?=$codes[$a]?>").load("getrcalendarprices.php?dt="+dt+"-01&ic=<?=$codes[$a]?>");
         });
-
 	<?php } ?>
-
-
-
 
     </script>
   </body>
