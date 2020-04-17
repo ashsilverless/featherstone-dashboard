@@ -32,9 +32,9 @@ $('#confirm-delete').on('show.bs.modal', function(e) {
     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 });
 
-$( document ).ready(function() {
+/*$( document ).ready(function() {
     $(".table").tablesorter();
-});
+});*/
 
 function getParameterByName(name, url) {
 if (!url) url = window.location.href;

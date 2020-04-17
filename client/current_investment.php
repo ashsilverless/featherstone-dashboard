@@ -1,70 +1,44 @@
 <?php
 include 'inc/db.php';     # $host  -  $user  -  $pass  -  $db
-
 /*
 ini_set ("display_errors", "1");
 error_reporting(E_ALL);
     */
-
 $user_id = $_SESSION['featherstone_uid'];
 $client_code = $_SESSION['featherstone_cc'];
 $last_date = getLastDate('tbl_fs_transactions','fs_transaction_date','fs_transaction_date','fs_client_code = "'.$client_code.'"');
-
 $lastlogin = date('g:ia \o\n D jS M y',strtotime(getLastDate('tbl_fsusers','last_logged_in','last_logged_in','id = "'.$_SESSION['user_id'].'"')));
-
 try {
   // Connect and create the PDO object
   $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
   $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-
-
      //    Get the general products data for Client   ///
-
-  $query = "SELECT * FROM tbl_fsusers where fs_client_code LIKE '$client_code' AND bl_live = 1;";
+  $query = "SELECT * FROM tbl_fsusers where id = '$user_id' AND bl_live = 1;";
 	debug($query);
-
   $result = $conn->prepare($query);
   $result->execute();
-
   // Parse returned data
   while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 	  $user_name = $row['user_name'];
+	  $strategy = $row['strategy'];
   }
 
-
-     //    Get the products   ///
-
-  $query = "SELECT DISTINCT fs_product_type FROM `tbl_fs_transactions` where fs_client_code LIKE '$client_code' AND bl_live = 1;";
-
-  $result = $conn->prepare($query);
-  $result->execute();
-
-  // Parse returned data
-  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-      $products[] = $row;
+  switch ($strategy) {
+    case 'Sensible':
+        $strategy_str = 'fs_theme_sensible';
+        break;
+    case 'Steady':
+        $strategy_str = 'fs_theme_steady';
+        break;
+    case 'Serious':
+        $strategy_str = 'fs_theme_serious';
+        break;
   }
-
-    //    Get the funds   ///
-
-  $query = "SELECT DISTINCT fs_isin_code FROM `tbl_fs_transactions` where fs_client_code LIKE '$client_code' AND bl_live = 1;";
-
-  $result = $conn->prepare($query);
-  $result->execute();
-
-  // Parse returned data
-  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-      $funds[] = $row;
-  }
-
-
   $conn = null;        // Disconnect
-
 }
-
 catch(PDOException $e) {
   echo $e->getMessage();
 }
-
 ?>
 <?php
 define('__ROOT__', dirname(dirname(__FILE__)));
@@ -82,11 +56,34 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 					<h2 class="heading heading__2"><?=$user_name;?></h2>
 					<div class="container">
 
-					  <div class="row">
-						  <div class="col-md-12">
-							  <canvas class="my-4 w-100 chartjs-render-monitor" id="linechart" height="400"></canvas>
-						  </div>
-					  </div>
+                    <div class="recess-box">
+                    	<?php
+                    	try {
+                    	  // Connect and create the PDO object
+                    	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
+                    	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
+                    		$query = "SELECT *  FROM `tbl_fs_themes` where $strategy_str = '1' AND bl_live = 1;";
+
+                    		debug($query);
+                    		$result = $conn->prepare($query);
+                    		$result->execute();
+                    			  // Parse returned data
+                    			  while($row = $result->fetch(PDO::FETCH_ASSOC)) {  ?>
+                    		<div class="themes-table__item">
+                    			<h3 class="heading heading__4"><?= $row['fs_theme_title'];?></h3>
+                    			<img src="../icons_folder/<?= $row['fs_theme_icon'];?>">
+                    			<p><?= substr($row['fs_theme_narrative'],0,385);?>...</p>
+                    		</div>
+                    	<?php }
+                    	$conn = null;        // Disconnect
+                    	}
+                    	catch(PDOException $e) {
+                    	echo $e->getMessage();
+                    	}?>
+                    		</div>
+
+
+
             </div>
 		</div><!--9-->
 

@@ -26,10 +26,10 @@ catch(PDOException $e) {
 
 
 ?>
+<form action="addasset.php" method="post" id="addtheme" name="addtheme" class="asset-form">
+    <div class="content">
+        <h3 class="heading heading__2">Asset Details</h3>
 
-<div class="content">
-    <h3 class="heading heading__2">Asset Details</h3>
-    <form action="addasset.php" method="post" id="addtheme" name="addtheme" class="asset-form">
         <div class="details">
             <label>Asset Name</label>
             <input type="text" id="asset_name" name="asset_name">
@@ -50,9 +50,6 @@ catch(PDOException $e) {
                     <input type="text" name="growth_serious" id="growth_serious" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5">
                 </div>
             </div>
-
-
-
         </div><!--details-->
 
         <div class="categories">
@@ -72,16 +69,16 @@ catch(PDOException $e) {
             <input type="text" id="cat_new" name="cat_new"><input type="hidden" id="cat_ids" name="cat_ids" value="<?=substr($idString, 0, -1);?>">
             <a href="#" class="addasset button button__raised button__inline">Add Category</a>
         </div>
-
-    </form>
-</div>
-
-<div class="control">
-    <h3 class="heading heading__2">Asset Actions</h3>
-    <div id="fund_actions">
-        <input type="submit" class="button button__raised" value="Save Changes">
     </div>
-</div>
+
+    <div class="control">
+            <h3 class="heading heading__2">Asset Actions</h3>
+            <div id="fund_actions">
+                <input type="submit" class="button button__raised" value="Save Changes">
+            </div>
+        </div>
+    
+</form>
 
     <script>
 

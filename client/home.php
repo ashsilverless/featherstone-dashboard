@@ -219,6 +219,7 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
         <div class="row">
             <div class="col-md-12">
                 <canvas class="my-4 w-100 chartjs-render-monitor" id="linechart" height="400"></canvas>
+
             </div>
         </div>
 

@@ -74,9 +74,11 @@ catch(PDOException $e) {
 
 ?>
 
-<div class="content">
-    <h3 class="heading heading__2">Asset Details</h3>
+
 <form action="editasset.php?id=<?=$asset_id;?>" method="post" id="editasset" name="editasset" class="asset-form">
+    <div class="content">
+        <h3 class="heading heading__2">Asset Details</h3>
+
         <div class="details">
             <label>Asset Name</label>
             <input type="text" id="asset_name" name="asset_name" value="<?= $asset_name;?>">
@@ -96,7 +98,7 @@ catch(PDOException $e) {
                     <label>Serious</label>
                     <input type="text" name="growth_serious" id="growth_serious" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5" value="<?= $serious;?>">
                 </div>
-            </div>
+            </div><!--row-->
         </div><!--details-->
 
         <div class="categories">
@@ -107,31 +109,29 @@ catch(PDOException $e) {
                     $idString .= $cats[$a]['id'].'|';
                     $cats[$a]['id']== $cat_id ? $thisCheck = 'checked = "checked"' : $thisCheck = '';?>
                 <div class="radio-item">
-                    <input class="star-marker" type="radio" name="cat" value="<?=$cats[$a]['id'];?>" id="cat<?=$cats[$a]['id'];?>">
+                    <input class="star-marker" type="radio" name="cat" value="<?=$cats[$a]['id'];?>" id="cat<?=$cats[$a]['id'];?>" <?=$thisCheck;?>>
                     <?php define('__ROOT__', dirname(dirname(__FILE__)));
                     include(__ROOT__.'/admin/images/star.php'); ?>
                     <label for="cat<?=$cats[$a]['id'];?>"><?=$cats[$a]['cat_name'];?></label>
-                </div>
+                </div><!--radio-->
                 <a href="#" data-href="deletecat.php?id=<?=$cats[$a]['id'];?>" data-toggle="modal" data-target="#confirm-catdelete" class=" button button__delete elcat"><i data-feather="trash-2"></i></a><br>
                 <?php } ?>
             </div><!--inner-->
-            <label>Add Category</label>
+            <label>Insert In New Category</label>
             <input type="text" id="cat_new" name="cat_new"><input type="hidden" id="cat_ids" name="cat_ids" value="<?=substr($idString, 0, -1);?>">
-            <a href="#" class="addasset button button__raised button__inline">Add Category</a>
+        </div><!--cats-->
+    </div>
+
+    <div class="control">
+        <h3 class="heading heading__2">Asset Actions</h3>
+        <div id="fund_actions">
+            <input type="submit" class="button button__raised" value="Save Changes">
         </div>
+    </div>
 
-
-</div>
-
-        <div class="control">
-            <h3 class="heading heading__2">Asset Actions</h3>
-            <div id="fund_actions">
-                <input type="submit" class="button button__raised" value="Save Changes">
-            </div>
-        </div>
 </form>
     <script>
-
+    feather.replace();
 	function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
