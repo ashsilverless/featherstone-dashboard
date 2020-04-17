@@ -97,9 +97,6 @@ catch(PDOException $e) {
                     <input type="text" name="growth_serious" id="growth_serious" class="calculator-input" onkeypress="return event.charCode >= 46 && event.charCode <= 57" size="5" value="<?= $serious;?>">
                 </div>
             </div>
-
-
-
         </div><!--details-->
 
         <div class="categories">
@@ -123,7 +120,7 @@ catch(PDOException $e) {
             <a href="#" class="addasset button button__raised button__inline">Add Category</a>
         </div>
 
-    </form>
+
 </div>
 
         <div class="control">
@@ -132,7 +129,7 @@ catch(PDOException $e) {
                 <input type="submit" class="button button__raised" value="Save Changes">
             </div>
         </div>
-
+</form>
     <script>
 
 	function getParameterByName(name, url) {

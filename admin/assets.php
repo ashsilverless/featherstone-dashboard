@@ -11,7 +11,7 @@ require_once('page-sections/header-elements.php');
     <div class="border-box main-content daily-data">
 <a href="#" class="addasset button button__raised button__inline">Add Asset</a><a href="#" class="expand-panel__cancel-button">Cancel</a>
 <div id="assetdetails" class="expand-panel newasset"></div>
-<div id="editasset" class="expand-panel editasset"></div>
+<div id="editasset" class="expand-panel editasset-target"></div>
 
 <h1 class="heading heading__2">Asset Allocation & Holdings</h1>
 
@@ -50,7 +50,7 @@ require_once('page-sections/header-elements.php');
             <p><?= $show_steady;?></p>
             <p><?= $show_sensible;?></p>
             <p><?= $show_serious;?></p>
-            <p><a href="#?id=<?=$row['id'];?>" class="editasset button button__raised">Edit Asset</a></p>
+            <p><a href="#?id=<?=$row['id'];?>" class="editasset-trigger button button__raised">Edit Asset</a></p>
         </div>
         <?php
             $steady += $row['fs_growth_steady'];      $sensible += $row['fs_growth_sensible'];      $serious += $row['fs_growth_serious'];
@@ -197,11 +197,11 @@ require_once(__ROOT__.'/global-scripts.php');?>
           $('.addasset.button').show();
 		});
 
-		$(".editasset").click(function(e){
+		$(".editasset-trigger").click(function(e){
             e.preventDefault();
             var theme_id = getParameterByName('id',$(this).attr('href'));
             $("#editasset").load("edit_asset.php?id="+theme_id);
-            $('.expand-panel.editasset').addClass('open');
+            $('.expand-panel.editasset-target').addClass('open');
             $('.expand-panel__cancel-button').addClass('visible');
             $('.addasset.button').hide();
             //$('.expand-panel__cancel-button').hide();
