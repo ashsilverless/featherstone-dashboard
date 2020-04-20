@@ -312,6 +312,12 @@
     .recess-box {
         padding:2rem;
     }
+    &.front {
+        padding: 2rem;
+    }
+    &.front .themes-table__item {
+        grid-template-columns: 1fr 2fr 6fr;
+    }
 }
 
 .peer-table {

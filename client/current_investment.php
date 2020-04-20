@@ -48,46 +48,43 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
 ?>
         <div class="col-md-9">
             <div class="border-box main-content">
-                  <div class="main-content__head">
-                      <h1 class="heading heading__1">Current Investment Themes</h1>
-                      <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
-                  </div>
+                <div class="main-content__head">
+                    <h1 class="heading heading__1">Current Investment Themes</h1>
+                    <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
+                </div>
 
-					<h2 class="heading heading__2"><?=$user_name;?></h2>
-					<div class="container">
+				<div class="container">
 
                     <div class="recess-box">
-                    	<?php
-                    	try {
-                    	  // Connect and create the PDO object
-                    	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
-                    	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-                    		$query = "SELECT *  FROM `tbl_fs_themes` where $strategy_str = '1' AND bl_live = 1;";
+                        <div class="themes-table front">
+                	<?php
+                	try {
+                	  // Connect and create the PDO object
+                	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
+                	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
+                		$query = "SELECT *  FROM `tbl_fs_themes` where $strategy_str = '1' AND bl_live = 1;";
 
-                    		debug($query);
-                    		$result = $conn->prepare($query);
-                    		$result->execute();
-                    			  // Parse returned data
-                    			  while($row = $result->fetch(PDO::FETCH_ASSOC)) {  ?>
+                		debug($query);
+                		$result = $conn->prepare($query);
+                		$result->execute();
+                			  // Parse returned data
+                			  while($row = $result->fetch(PDO::FETCH_ASSOC)) {  ?>
                     		<div class="themes-table__item">
-                    			<h3 class="heading heading__4"><?= $row['fs_theme_title'];?></h3>
                     			<img src="../icons_folder/<?= $row['fs_theme_icon'];?>">
+                                <h3 class="heading heading__4"><?= $row['fs_theme_title'];?></h3>
                     			<p><?= substr($row['fs_theme_narrative'],0,385);?>...</p>
                     		</div>
-                    	<?php }
-                    	$conn = null;        // Disconnect
-                    	}
-                    	catch(PDOException $e) {
-                    	echo $e->getMessage();
-                    	}?>
-                    		</div>
+                	<?php }
+                	$conn = null;        // Disconnect
+                	}
+                	catch(PDOException $e) {
+                	echo $e->getMessage();
+                	}?>
+                        </div>
+                    </div>
 
-
-
-            </div>
-		</div><!--9-->
-
-
+                </div>
+		    </div><!--9-->
 		</div>
     </div>
 </div>

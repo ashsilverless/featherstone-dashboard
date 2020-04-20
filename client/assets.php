@@ -53,6 +53,16 @@ require_once(__ROOT__.'/page-sections/sidebar-elements.php');
                         <p>Data accurate as at <?= date('j M y',strtotime($last_date));?></p>
                     </div>
 
+                    <!--<svg width="100%" height="100%" viewBox="0 0 42 42" class="donut" aria-labelledby="beers-title beers-desc" role="img" style="transform:rotate(-90deg);">
+                          <circle class="donut-hole" cx="21" cy="21" r="15.91549430918954" fill="#fff" role="presentation"></circle>
+                          <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#d2d3d4" stroke-width="3" role="presentation"></circle>
+
+                          <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="blue" stroke-width="4" stroke-dasharray=" 50 50" stroke-dashoffset="70" aria-labelledby="donut-segment-1-title donut-segment-1-desc"></circle>
+                           <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#ce4b99" stroke-width="4" stroke-dasharray="30 70" stroke-dashoffset="0" aria-labelledby="donut-segment-1-title donut-segment-1-desc"></circle>
+
+
+                       </svg>-->
+
                       <div class="container">
                           <div class="row">
                               <div class="col-md-4">
@@ -173,7 +183,7 @@ Chart.defaults.global.legend.display = false;
         type: 'doughnut',
         data: {
         labels: [<?=substr($assetsName, 0, -1);?>],
-        options: { legend: {display: false}, tooltips: {enabled: true}},
+        options: { legend: {display: true}, tooltips: {enabled: true}},
         datasets: [{
             data: [<?=substr($assetsData, 0, -1);?>],
 			ids: [<?=substr($assetsID, 0, -1);?>],
