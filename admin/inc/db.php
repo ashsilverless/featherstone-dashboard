@@ -12,9 +12,9 @@ if($_GET['err']!=""){
 
 	##################      LIVE SERVER     ###########################
 
-	$host = "localhost";
-	$user = "FeatherStoneDashboard";
-	$pass = "FSD>Login-1";
+    $host = "localhost";
+	$user = "root";
+	$pass = "root";
 	$db	 = "featherstone_db";
 	$charset = 'utf8mb4';
 
@@ -32,7 +32,7 @@ function validateDate($date, $format = 'Y-m-d')
 function formatBytes($size, $precision = 2)
 {
     $base = log($size, 1024);
-    $suffixes = array('bytes', 'Kb', 'Mb', 'Gb', 'Tb');   
+    $suffixes = array('bytes', 'Kb', 'Mb', 'Gb', 'Tb');
 
     return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
 }
@@ -53,7 +53,7 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d' ) 
 }
 
 
-function getUserName($id){  
+function getUserName($id){
 
 	global $host,$user, $pass, $db, $charset;
 	try {
@@ -61,7 +61,7 @@ function getUserName($id){
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-	  $result = $conn->prepare("SELECT *  FROM tbl_fsusers where fs_client_code LIKE '$id';"); 
+	  $result = $conn->prepare("SELECT *  FROM tbl_fsusers where fs_client_code LIKE '$id';");
 	  $result->execute();
 
 	  // Parse returned data
@@ -71,7 +71,7 @@ function getUserName($id){
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -85,7 +85,7 @@ function getTable($tbl,$orderFld = "id",$status = 'bl_live = 1'){
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 debug("SELECT * FROM $tbl WHERE $status ORDER BY $orderFld ASC ");
-	  $result = $conn->prepare("SELECT * FROM $tbl WHERE $status ORDER BY $orderFld ASC "); 
+	  $result = $conn->prepare("SELECT * FROM $tbl WHERE $status ORDER BY $orderFld ASC ");
 	  $result->execute();
 
 	  // Parse returned data
@@ -95,7 +95,7 @@ debug("SELECT * FROM $tbl WHERE $status ORDER BY $orderFld ASC ");
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -109,7 +109,7 @@ function getLastDate($tbl,$retfield,$orderFld = "id",$param){
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-	  $result = $conn->prepare("SELECT $retfield FROM $tbl WHERE $param AND bl_live >0 ORDER BY $orderFld DESC LIMIT 1; "); 
+	  $result = $conn->prepare("SELECT $retfield FROM $tbl WHERE $param AND bl_live >0 ORDER BY $orderFld DESC LIMIT 1; ");
 	  $result->execute();
 
 	  // Parse returned data
@@ -119,7 +119,7 @@ function getLastDate($tbl,$retfield,$orderFld = "id",$param){
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -132,12 +132,12 @@ function get_current_price($code){
         // Connect and create the PDO object
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-        
+
         $query = "SELECT * FROM tbl_fs_fund WHERE isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
-        
+
         debug ($query);
 
-	  $result = $conn->prepare($query); 
+	  $result = $conn->prepare($query);
 	  $result->execute();
 
 	  // Parse returned data
@@ -147,7 +147,7 @@ function get_current_price($code){
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -160,12 +160,12 @@ function get_benchmark($code){
         // Connect and create the PDO object
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-        
+
         $query = "SELECT * FROM tbl_fs_fund WHERE isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
-        
+
         debug ($query);
 
-	  $result = $conn->prepare($query); 
+	  $result = $conn->prepare($query);
 	  $result->execute();
 
 	  // Parse returned data
@@ -175,7 +175,7 @@ function get_benchmark($code){
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -189,13 +189,13 @@ function getTblCount($tbl){
 	  $countconn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $countconn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-	  $countresult = $countconn->prepare("SELECT * FROM $tbl WHERE id > 0 AND bl_live >0;"); 
+	  $countresult = $countconn->prepare("SELECT * FROM $tbl WHERE id > 0 AND bl_live >0;");
 	  $countresult->execute();
       $count = $countresult->rowCount();
-      
+
 	  $countconn = null;        // Disconnect
 	  return $count;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -203,7 +203,7 @@ function getTblCount($tbl){
 }
 
 
-function getFields($tbl,$srch,$param,$condition = '='){ 
+function getFields($tbl,$srch,$param,$condition = '='){
 	global $host,$user, $pass, $db, $charset;
 	try {
 	  // Connect and create the PDO object
@@ -211,8 +211,8 @@ function getFields($tbl,$srch,$param,$condition = '='){
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
        // debug("SELECT * FROM $tbl WHERE $srch $condition '$param' AND bl_live > 0;");
-        
-	  $result = $conn->prepare("SELECT * FROM $tbl WHERE $srch $condition '$param' AND bl_live > 0;"); 
+
+	  $result = $conn->prepare("SELECT * FROM $tbl WHERE $srch $condition '$param' AND bl_live > 0;");
 	  $result->execute();
 
 	  // Parse returned data
@@ -222,7 +222,7 @@ function getFields($tbl,$srch,$param,$condition = '='){
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -230,15 +230,15 @@ function getFields($tbl,$srch,$param,$condition = '='){
 }
 
 
-function getField($tbl,$fld,$srch,$param){  
-	
+function getField($tbl,$fld,$srch,$param){
+
 	global $host,$user, $pass, $db, $charset;
 	try {
 	  // Connect and create the PDO object
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-	  $result = $conn->prepare("SELECT * FROM $tbl WHERE $srch = '$param';"); 
+	  $result = $conn->prepare("SELECT * FROM $tbl WHERE $srch = '$param';");
 	  $result->execute();
 
 	  // Parse returned data
@@ -248,7 +248,7 @@ function getField($tbl,$fld,$srch,$param){
 
 	  $conn = null;        // Disconnect
 	  return $return;
-	
+
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -258,7 +258,7 @@ function getField($tbl,$fld,$srch,$param){
 
 
 function sps($string, $min='', $max='')
-{	
+{
   $string = str_replace("£","&pound;",$string);
   $string = str_replace("?","&#63;",$string);
   $string = str_replace("'","''",$string);
@@ -271,7 +271,7 @@ function sps($string, $min='', $max='')
 }
 
 function spparanoid($string, $min='', $max='')
-{	
+{
   $string = preg_replace("/[^a-zA-Z0-9_-]/", "", $string);
   $len = strlen($string);
   if((($min != '') && ($len < $min)) || (($max != '') && ($len > $max)))
@@ -285,12 +285,12 @@ function cleanArray($array){
 
 			$value = str_replace("script","scrip t",$value); //no easy javascript injection
 			$value = str_replace("union","uni on",$value); //no easy common mysql temper
-			
+
 			$value = str_replace("'","''",$value); //no single quotes
 
 			$value = htmlentities($value, ENT_QUOTES); //encodes the string nicely
 			$value = addslashes($value); //mysql_real_escape_string() //htmlentities
-			
+
 			$array[$key] = $value;
 		}
 	}else{
@@ -306,7 +306,7 @@ function sanSlash($string){
 }
 
 function onlyNum($string, $min='', $max='')
-{	
+{
   $string = preg_replace("/[^0-9.]/", "", $string);
   $len = strlen($string);
   if((($min != '') && ($len < $min)) || (($max != '') && ($len > $max)))
@@ -337,7 +337,7 @@ function debug($string){
 function showForm(){
 	foreach($_POST as $key => $data) {
 		echo ( $key." = ".$data ."<br>");
-} 
+}
 }
 
 function chk($what,$fld,$cs){
@@ -364,13 +364,13 @@ $str_time=$my_t['hours'].":".$my_t['minutes'].":".$my_t['seconds'];
 $str_ipaddress=$_SERVER['REMOTE_ADDR'];
 $str_path=$_SERVER['SCRIPT_NAME'];
 $str_pagename = str_replace("","",$str_path);
-$ref = getenv("HTTP_REFERER"); 
+$ref = getenv("HTTP_REFERER");
 cleanArray($_POST);
 foreach($_POST as $key => $data) {
 	if($key!="button"){
 		$svrdata .= $key."=".$data ."   ";
 	}
-} 
+}
 $svrdata .= $_SERVER['QUERY_STRING'];
 $svrdata = sanSlash($svrdata);
 

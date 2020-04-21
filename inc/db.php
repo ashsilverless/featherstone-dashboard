@@ -12,9 +12,9 @@ if($_GET['err']!=""){
 
 	##################      LIVE SERVER     ###########################
 
-	$host = "46.32.229.204";
-	$user = "FeatherStoneDashboard";
-	$pass = "FSD>Login-1";
+    $host = "localhost";
+	$user = "root";
+	$pass = "root";
 	$db	 = "featherstone_db";
 	$charset = 'utf8mb4';
 
