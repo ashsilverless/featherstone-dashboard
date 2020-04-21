@@ -9,17 +9,21 @@ $secret = $_SESSION['secret'];
 require_once 'googleLib/GoogleAuthenticator.php';
 $ga = new GoogleAuthenticator();
 $checkResult = $ga->verifyCode($secret, $code, 2);    // 2 = 2*30sec clock tolerance
-
+/*
+print "checkResult".$checkResult."<br/>";
+print "secret= ". $secret."<br>";
+print "code= ". $code."<br>";
+*/
 
 if ($checkResult){
 	$_SESSION['googleCode']	= $code;
-	$_SESSION['loggedin'] = TRUE;
-	header("location:client/home.php");
+	$em = $_SESSION['email'];
+	$pw = $_SESSION['pass']; 
+	header("location:get_authenticate.php?em=$em&pw=$pw");
     exit;
 
 } 
 else{
-	$_SESSION['loggedin'] = FALSE;
 	header("location:device_confirmations.php");
     exit;
 }

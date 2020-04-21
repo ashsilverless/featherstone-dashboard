@@ -2,9 +2,9 @@
 session_start();
 	##################      LIVE SERVER     ###########################
 
-	$host = "localhost";
-	$user = "root";
-	$pass = "root";
+	$host = "46.32.229.204";
+	$user = "FeatherStoneDashboard";
+	$pass = "FSD>Login-1";
 	$db	 = "featherstone_db";
 	$charset = 'utf8mb4';
 

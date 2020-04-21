@@ -1,15 +1,10 @@
 <?php include 'header.php';
-
 include('connection.php');
-
 $secret = $_SESSION['secret'];
 $user 	= $_SESSION['email'];
-
 require_once 'googleLib/GoogleAuthenticator.php';
 $ga 		= new GoogleAuthenticator();
 $qrCodeUrl 	= $ga->getQRCodeGoogleUrl($user, $secret,'www.featherstone.co.uk');
-
-
 ?>
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -23,7 +18,7 @@ $qrCodeUrl 	= $ga->getQRCodeGoogleUrl($user, $secret,'www.featherstone.co.uk');
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Row -->
+          <!-- Countries Row -->
           <div class="row">
             <div class="clearfix"></div>
             <div class="col-6 offset-3 login">
@@ -31,9 +26,9 @@ $qrCodeUrl 	= $ga->getQRCodeGoogleUrl($user, $secret,'www.featherstone.co.uk');
 								<h1 id="loginlogo" class="logo">
                                     <?php include 'client/images/fs-logo.php'; ?>
                                 </h1>
-							
-							
-							
+
+
+
 							<div class="form-input">
                                 <h2>Enter Code</h2>
                                 <form name="reg" action="auth.php" method="POST">
@@ -46,11 +41,11 @@ $qrCodeUrl 	= $ga->getQRCodeGoogleUrl($user, $secret,'www.featherstone.co.uk');
 										<input type="text" name="code" id="code" autocomplete="off" value="" required>
                                         <label>Enter Google Authenticator Code</label>
                                     </div>
-                                    
+
                                     <div class="silverless-button">
                                         <input  id="go" type="submit" value="Log in">
                                     </div>
-									
+
                                 </form>
                             </div>
 

@@ -3,8 +3,8 @@ session_start();
 	##################      LIVE SERVER     ###########################
 
 	$host = "localhost";
-	$user = "root";
-	$pass = "root";
+	$user = "FeatherStoneDashboard";
+	$pass = "FSD>Login-1";
 	$db	 = "featherstone_db";
 	$charset = 'utf8mb4';
 
@@ -29,12 +29,12 @@ try {
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
 	  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
 
-	  $result = $conn->prepare("SELECT * FROM tbl_fsadmin WHERE user_name LIKE '$username' AND destruct_date > '$str_date' AND bl_live > 0; ");
+	  $result = $conn->prepare("SELECT * FROM tbl_fsadmin WHERE user_name LIKE '$username' AND destruct_date > '$str_date' AND bl_live > 0; "); 
 	  $result->execute();
 
 	  // Parse returned data
 	  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-		  // Verification success!
+		  // Verification success! 
 			session_regenerate_id();
 			$_SESSION['fs_admin_name'] = $row['first_name'].' '.$row['last_name'];
             $_SESSION['username'] = $row['user_name'];
@@ -48,7 +48,7 @@ try {
 	  }
 
 	  $conn = null;        // Disconnect
-
+	
 	}
 	catch(PDOException $e) {
 	  echo $e->getMessage();
@@ -65,8 +65,8 @@ if(!$_SESSION['loggedin']){
         $sql = "UPDATE tbl_fsadmin SET last_logged_in = '$str_date' WHERE id = ".$_SESSION['user_id']."; ";
         $conn->exec($sql);
 
-
-
+    
+    
     $_SESSION['last_logged_in'] = date('jS M Y',strtotime($str_date));
     $conn = null;
     header("location:home.php");
