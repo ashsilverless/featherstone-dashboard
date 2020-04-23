@@ -131,7 +131,7 @@ require_once('page-sections/header-elements.php');
 
 <p><?= date('H:i j M y',strtotime($staff['last_logged_in']));?></p>
 
-<a href="#?id=<?= $staff['id'];?>" class="button button__raised">Edit</a>
+<a href="edit_staff.php?id=<?= $staff['id'];?>" class="button button__raised">Edit</a>
 
 	</div>
 <?php } ?>

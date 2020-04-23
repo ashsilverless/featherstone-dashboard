@@ -10,11 +10,11 @@ try {
 
     $query = "SELECT *  FROM `tbl_fs_themes` where id = $theme_id;";
 
-    $result = $conn->prepare($query); 
+    $result = $conn->prepare($query);
     $result->execute();
 
           // Parse returned data
-          while($row = $result->fetch(PDO::FETCH_ASSOC)) {  
+          while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 			  $theme_title = $row['fs_theme_title'];
 			  $theme_narrative = $row['fs_theme_narrative'];
 			  $theme_icon = '<img src="../icons_folder/'.$row['fs_theme_icon'].'" style="margin-right:10px; max-width:80px;">';
@@ -33,47 +33,66 @@ catch(PDOException $e) {
 }
 ?>
 
+<form action="edittheme.php?id=<?=$theme_id;?>" method="post" id="edittheme" name="edittheme" class="asset-form">
+    <div class="content">
+        <h3 class="heading heading__2">Theme Details</h3>
 
-        
-<form action="edittheme.php?id=<?=$theme_id;?>" method="post" id="edittheme" name="edittheme">
-			<div id="theme_details" class="col-md-6" style="float:left;">
-				
-					<h4>Details</h4>
-					<p>Theme Title<br>
-					<input type="text" id="theme_title" name="theme_title" value="<?=$theme_title;?>"></p>
-					<p>Narrative<br>
-			  <textarea name="theme_narrative" style="width:90%; min-height:240px;" id="theme_narrative"><?=$theme_narrative;?></textarea></p>
-					<p>Theme Type<br>
-					  <label>
-						  <input name="theme_type_steady" type="checkbox" id="theme_type_steady" value="steady" <?php if($steady=='1'){?>checked="checked"<?php }?>>
-						  Steady</label>
-						<br>
-						<label>
-						  <input type="checkbox" name="theme_type_serious" value="serious" id="theme_type_serious" <?php if($serious=='1'){?>checked="checked"<?php }?>>
-						  Serious</label>
-						<br>
-						<label>
-						  <input type="checkbox" name="theme_type_sensible" value="sensible" id="theme_type_sensible" <?php if($sensible=='1'){?>checked="checked"<?php }?>>
-						  Sensible</label>
-				</p>
-				
-				
-				
-				
-				
-			</div>
-			<div id="icon_upload" class="col-md-3" style="float:left;"><h4>Upload Icon</h4>		
-				<div id="fundfilelist" class="small">Your browser doesn't have Flash, Silverlight or HTML5 support.</div><div id="fundcontainer"><a id="pickfund" href="javascript:;" class="d-sm-inline-block btn btn-sm shadow-sm">[Choose File]</a></div><input name="icon_file" type="hidden" id="icon_file" value="<?=$theme_icon_file;?>"><div id="theme_icon"><?=$theme_icon;?></div>
-			</div>
-			<div id="fund_actions" class="col-md-3" style="float:left;">
-				<h5>Theme Actions</h5>
-				<p>Last edited on 14 Jan by James Barton</p>
-				<input type="submit" class="btn btn-grey" value="Edit Theme">
-			</div>
-	
-</form>			
-		<div class="col-md-8 offset-2 mt-3 mb-3"><hr></div>
+<div class="details">
+    <label>Theme Name</label>
+    <input type="text" id="theme_title" name="theme_title" value="<?=$theme_title;?>" class="mb1">
+    <label>Narrative</label>
+    <textarea name="theme_narrative" id="theme_narrative" class="mb2"><?=$theme_narrative;?></textarea>
+    <h4 class="heading heading__4">Theme Type</h4>
+    <div class="row mt1">
+        <div class="col-4">
+            <label>Steady</label>
+            <div class="radio-item">
+                <input class="star-marker" name="theme_type_steady" type="checkbox" id="theme_type_steady" value="steady" <?php if($steady=='1'){?>checked="checked"<?php }?>>
+                <?php define('__ROOT__', dirname(dirname(__FILE__)));
+                include(__ROOT__.'/admin/images/star.php'); ?>
+            </div><!--radio-->
+        </div>
+        <div class="col-4">
+            <label>Serious</label>
+            <div class="radio-item">
+                <input class="star-marker" type="checkbox" name="theme_type_serious" value="serious" id="theme_type_serious" <?php if($serious=='1'){?>checked="checked"<?php }?>>
+                <?php define('__ROOT__', dirname(dirname(__FILE__)));
+                include(__ROOT__.'/admin/images/star.php'); ?>
+            </div>
+        </div>
+        <div class="col-4">
+            <label>Sensible</label>
+            <div class="radio-item">
+                <input class="star-marker" type="checkbox" name="theme_type_sensible" value="sensible" id="theme_type_sensible" <?php if($sensible=='1'){?>checked="checked"<?php }?>>
+                <?php define('__ROOT__', dirname(dirname(__FILE__)));
+                include(__ROOT__.'/admin/images/star.php'); ?>
+            </div>
+        </div>
+    </div><!--row-->
 
+</div><!--details-->
+
+<div class="categories">
+    <label>Upload Icon</label>
+    <input type="text" id="theme_icon" name="theme_file" value="File Name" class="mb1">
+    <a href="#" class="button button__raised button__inline">Select File</a>
+    <!--<div id="icon_upload" class="col-md-3" style="float:left;"><h4>Upload Icon</h4>
+    <div id="fundfilelist" class="small">Your browser doesn't have Flash, Silverlight or HTML5 support.</div><div id="fundcontainer"><a id="pickfund" href="javascript:;" class="d-sm-inline-block btn btn-sm shadow-sm">[Choose File]</a></div><input name="icon_file" type="hidden" id="icon_file" value="<?=$theme_icon_file;?>"><div id="theme_icon"><?=$theme_icon;?></div>-->
+</div>
+
+</div><!--cats-->
+
+</div><!--content-->
+
+<div class="control">
+    <h3 class="heading heading__2">Theme Actions</h3>
+    <p>Last edited on 14 Jan by James Barton</p>
+    <input type="submit" class="button button__raised button__inline" value="Save Changes">
+    <a href="" class="button button__raised button__inline button__danger">Cancel</a>
+</div>
+
+</form>
+<script type="text/javascript" src="js/plupload/plupload.full.min.js"></script>
     <script>
 
 	function getParameterByName(name, url) {
@@ -85,7 +104,7 @@ catch(PDOException $e) {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-		
+
  // Fund File Upload
 var uploader = new plupload.Uploader({
 	runtimes : 'html5,flash,silverlight,html4',
@@ -109,7 +128,7 @@ var uploader = new plupload.Uploader({
 
 		FilesAdded: function(up, files) {
 			for (var i in files) {
-				$( "#fund_file" ).val(files[i].name); 
+				$( "#fund_file" ).val(files[i].name);
 			}
 			uploader.start();
 		},
@@ -117,7 +136,7 @@ var uploader = new plupload.Uploader({
 		UploadProgress: function(up, file) {
 			//
 		},
-        
+
         FileUploaded: function(up, file, info) {
             var myData;
 				try {
@@ -126,8 +145,8 @@ var uploader = new plupload.Uploader({
 					myData = eval('(' + info.response + ')');
 				}
 
-		   $( "#icon_file" ).val(myData.result); 
-		   $( "#theme_icon" ).html('<img src="../icons_folder/'+myData.result+'" style="margin-right:10px; max-width:80px;">'); 
+		   $( "#icon_file" ).val(myData.result);
+		   $( "#theme_icon" ).html('<img src="../icons_folder/'+myData.result+'" style="margin-right:10px; max-width:80px;">');
         },
 
 
@@ -136,11 +155,11 @@ var uploader = new plupload.Uploader({
 		}
 	}
 });
-		
+
 uploader.init();
-    
-		
-	 
+
+
+
 
     </script>
   </body>

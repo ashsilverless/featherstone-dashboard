@@ -104,3 +104,17 @@
     background: linear-gradient(-6deg, #555555 0%, #303030 100%);
     color: white;
 }
+
+$distance: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20); // Amount string.
+$sides: (top, bottom, left, right); // Sides var
+
+@each $amount in $distance {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}#{$amount} {
+            margin-#{$side}: #{$amount}rem ;
+        }
+        .p#{str-slice($side, 0, 1)}#{$amount} {
+            padding-#{$side}: #{$amount}rem;
+        }
+    }
+}

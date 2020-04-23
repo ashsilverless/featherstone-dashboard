@@ -9,7 +9,9 @@ require_once('page-sections/header-elements.php');
 
 <div class="container">
     <div class="border-box main-content daily-data">
-<a href="#" class="addasset button button__raised button__inline">Add Asset</a><a href="#" class="expand-panel__cancel-button">Cancel</a>
+<a href="#" class="addasset button button__raised button__inline">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.82 16.22"><defs><style>.cls-1{fill:#1d1d1b;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M7.25,15.57V8.78H.66a.67.67,0,0,1,0-1.33H7.25V.65a.66.66,0,0,1,1.32,0v6.8h6.6a.67.67,0,0,1,0,1.33H8.57v6.79a.66.66,0,0,1-1.32,0Z"/></g></g></svg>
+    Add Asset</a><a href="#" class="expand-panel__cancel-button">Cancel</a>
 <div id="assetdetails" class="expand-panel newasset"></div>
 <div id="editasset" class="expand-panel editasset-target"></div>
 
@@ -50,7 +52,9 @@ require_once('page-sections/header-elements.php');
             <p><?= $show_steady;?></p>
             <p><?= $show_sensible;?></p>
             <p><?= $show_serious;?></p>
-            <p><a href="#?id=<?=$row['id'];?>" class="editasset-trigger button button__raised">Edit Asset</a></p>
+            <p><a href="#?id=<?=$row['id'];?>" class="editasset-trigger button button__raised">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.77 20.77"><defs><style>.cls-1{fill:#1d1d1b;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M3.69,9.72a.66.66,0,0,1,0,1.32h-3a.66.66,0,1,1,0-1.32ZM5.2,14.65a.64.64,0,0,1,.92,0,.66.66,0,0,1,0,.93L4,17.71a.67.67,0,0,1-.93,0,.66.66,0,0,1,0-.93ZM3.07,4A.65.65,0,1,1,4,3.07L6.12,5.21a.64.64,0,0,1,0,.92.65.65,0,0,1-.92,0Zm6.2,6.61a.9.9,0,0,1,0-1.26.87.87,0,0,1,1.25,0l9.35,9.38a.91.91,0,0,1,0,1.26.88.88,0,0,1-1.26,0Zm3.92,2.26L10.27,9.93c-.16-.16-.32-.19-.47-.06a.31.31,0,0,0,0,.47l2.91,2.93ZM11,3.68a.66.66,0,1,1-1.31,0v-3A.66.66,0,0,1,11,.65Zm0,16.43a.66.66,0,1,1-1.31,0v-3a.66.66,0,1,1,1.31,0Zm5.74-17a.65.65,0,0,1,.93,0,.67.67,0,0,1,0,.93L15.57,6.13a.65.65,0,0,1-.93,0,.64.64,0,0,1,0-.92Zm.31,8a.66.66,0,1,1,0-1.32h3a.66.66,0,0,1,0,1.32Z"/></g></g></svg>
+                Edit Asset</a></p>
         </div>
         <?php
             $steady += $row['fs_growth_steady'];      $sensible += $row['fs_growth_sensible'];      $serious += $row['fs_growth_serious'];
@@ -71,107 +75,14 @@ require_once('page-sections/header-elements.php');
 
 </div>
 
-
-        <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
-
-			<div class="table-responsive mt-5">
-			  <table class="table table-sm table-striped">
-			    <tbody>
-					<tr>
-				      <td bgcolor="#FFFFFF"><strong>Asset Name</strong></td>
-					  <td bgcolor="#FFFFFF"><strong>Category</strong></td>
-					  <td bgcolor="#FFFFFF"><strong>Steady</strong></td>
-					  <td bgcolor="#FFFFFF"><strong>Sensible</strong></td>
-					  <td bgcolor="#FFFFFF"><strong>Serious</strong></td>
-					  <td bgcolor="#FFFFFF"></td>
-				  </tr>
-					<?php
-					try {
-					  // Connect and create the PDO object
-					  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
-					  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-
-						$query = "SELECT *  FROM `tbl_fs_assets` where bl_live = 1;";
-
-					  	$result = $conn->prepare($query);
-					  	$result->execute();
-
-							  // Parse returned data
-							  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-								$row['fs_growth_steady'] == '0' ? $show_steady = '' : $show_steady = $row['fs_growth_steady'].'%';
-								$row['fs_growth_sensible'] == '0' ? $show_sensible = '' : $show_sensible = $row['fs_growth_sensible'].'%';
-								$row['fs_growth_serious'] == '0' ? $show_serious = '' : $show_serious = $row['fs_growth_serious'].'%';
-							  ?>
-								<tr>
-								  <td><?= $row['fs_asset_name'];?></td>
-								  <td><?= getField('tbl_fs_categories','cat_name','id',$row['cat_id']);?></td>
-								  <td><?= $show_steady;?></td>
-								  <td><?= $show_sensible;?></td>
-								  <td><?= $show_serious;?></td>
-								  <td><a href="#?id=<?=$row['id'];?>" class="editasset btn" style="font-size:0.6em; font-weight:bold; margin-right:10px;">Edit Asset</a><a href="#" data-href="deleteasset.php?id=<?= $row['id'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.6em; font-weight:bold;">Delete Asset</a></td>
-							    </tr>
-							<?php
-								$steady += $row['fs_growth_steady'];      $sensible += $row['fs_growth_sensible'];      $serious += $row['fs_growth_serious'];
-							}
-
-					  $conn = null;        // Disconnect
-						$steady < 100 ? $steadyStyle = 'color:red;' : $steadyStyle = 'color:black;';
-						$sensible < 100 ? $sensibleStyle = 'color:red;' : $sensibleStyle = 'color:black;';
-						$$serious < 100 ? $seriousStyle = 'color:red;' : $seriousStyle = 'color:black;';
-					}
-
-					catch(PDOException $e) {
-					  echo $e->getMessage();
-					}
-					?>
-					<tr>
-								  <td></td>
-								  <td>Totals :</td>
-								  <td><strong style="<?=$steadyStyle;?>"><?= $steady;?>&percnt;</strong></td>
-								  <td><strong style="<?=$sensibleStyle;?>"><?= $sensible;?>&percnt;</strong></td>
-								  <td><strong style="<?=$seriousStyle;?>"><?= $serious;?>&percnt;</strong></td>
-								  <td></td>
-							    </tr>
-			      </tbody>
-				</table>
-		  </div>
-
-
-
-
-
-		<div class="col-md-8 offset-2 mt-3 mb-3"><hr></div>
-
-		<div id="assetdetails" class="col-md-12 mt-5"></div>
-
-    </main>-->
-      </div>
+        </div>
     </div>
 
-<?php require_once('page-sections/footer-elements.php');?>
-
-<!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="index.php">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<?php require_once('page-sections/footer-elements.php');
+<?php
+require_once('page-sections/footer-elements.php');
 require_once('modals/delete.php');
 require_once('modals/logout.php');
+require_once('modals/delete-cat.php');
 require_once(__ROOT__.'/global-scripts.php');?>
 
     <script>

@@ -101,7 +101,7 @@ require_once('page-sections/header-elements.php');
 
 <div class="container">
     <div class="border-box main-content">
-		<a href="#" class="button button__raised button__inline">Add New Client</a>
+		<a href="add_client.php" class="button button__raised button__inline">Add New Client</a>
 <h1 class="heading heading__2">Clients</h1>
 
 <div class="clients-table">

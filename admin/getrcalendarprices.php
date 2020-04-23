@@ -22,7 +22,7 @@ function draw_calendar($dt,$month,$year,$isin_code){
 	$calendar = '<table cellpadding="0" cellspacing="0" class="calendar tbl">';
 
 
-	$calendar.= '<tr><td colspan="2" bgcolor="#FFF" align="center" style="border-left:0px solid #FFF;"><a href="?dt='.$previousMonth.'" class="monthback'.$isin_code.'"><span data-feather="skip-back"></span> Previous Month</a></td><td colspan="3" bgcolor="#FFF" align="center"><h4><strong>'.date('F Y',mktime(0,0,0,$month,1,$year)).'</strong></h4></td><td colspan="2" bgcolor="#FFF" align="center"><a href="?dt='.$nextMonth.'" class="monthnext'.$isin_code.'">Next Month <span data-feather="skip-forward"></span></a></td></tr>';
+	$calendar.= '<tr class="calendar__head"><td colspan="2"><a href="?dt='.$previousMonth.'" class="monthback'.$isin_code.'"><span data-feather="skip-back"></span><i class="fas fa-chevron-left"></i></a></td><td colspan="3" ><h4 class="heading heading__4">'.date('F Y',mktime(0,0,0,$month,1,$year)).'</h4></td><td colspan="2"><a href="?dt='.$nextMonth.'" class="monthnext'.$isin_code.'"><i class="fas fa-chevron-right"></i><span data-feather="skip-forward"></span></a></td></tr>';
 
 
 	/* table headings */
@@ -38,7 +38,7 @@ function draw_calendar($dt,$month,$year,$isin_code){
 	$dates_array = array();
 
 	/* row for week one */
-	$calendar.= '<tr class="calendar-row">';
+	$calendar.= '<tr class="calendar-row daily-cells">';
 
     // Connect and create the PDO object
 	  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
@@ -78,7 +78,7 @@ function draw_calendar($dt,$month,$year,$isin_code){
 
 
 
-                     $calendar .= "<a href='#'  id='".$isin_code.$row['id']."' data-inputclass='input_num' data-type='text' data-pk='".$row['id']."' data-url='addexistingfundprice.php?ic=".$isin_code."' style='text-decoration:none; color:black;' class='editme'>".$row['current_price']."</a>";
+                     $calendar .= "<a href='#'  id='".$isin_code.$row['id']."' data-inputclass='input_num' data-type='text' data-pk='".$row['id']."' data-url='addexistingfundprice.php?ic=".$isin_code."' class='editme'>".$row['current_price']."</a>";
 
 					 $priceID .= "#".$isin_code.$row['id'].",";
 
@@ -87,9 +87,9 @@ function draw_calendar($dt,$month,$year,$isin_code){
                   }
               }else{
 
-				  $cur_date == $today ? $calendar.= '<td class="calendar-day-np" style="background-color:rgba(255,255,0,0.3)" valign="top" align="center"><div class="day-number f-left"><span>'.$list_day.'</span></div><div id="clear" style="height:1px;clear:both;"></div>' : $calendar.= '<td class="calendar-day-nd" valign="top" align="center" ><div class="day-number f-left"><span>'.$list_day.'</span></div><div id="clear" style="height:1px;clear:both;"></div>';
+				  $cur_date == $today ? $calendar.= '<td class="calendar-day-np today"  valign="top" align="center"><div class="day-number f-left"><span>'.$list_day.'</span></div><div id="clear" style="height:1px;clear:both;"></div>' : $calendar.= '<td class="calendar-day-nd" valign="top" align="center" ><div class="day-number f-left"><span>'.$list_day.'</span></div><div id="clear" style="height:1px;clear:both;"></div>';
 
-                  $calendar.= '<p style="font-size:0.9em; color:#999;" class="price">{No Data}</p>';
+                  $calendar.= '<p class="price"><span class="empty-price">--.--</span></p>';
 
                   $nd_day_checks .= $list_day."|";
               }
@@ -128,19 +128,11 @@ function draw_calendar($dt,$month,$year,$isin_code){
 
 	/* all done, return result */
 	return $calendar;
-}
-
-?>
+}?>
 <?=draw_calendar($dt,$dateQueryMonth,$dateQueryYear,$isin_code);?>
-
-
-
-
-
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		$.fn.editable.defaults.mode = 'inline';
 		$('<?=substr($priceID, 0, -1);?>').editable({emptytext: '0',tpl: "<input type='text' style='width: 100px;font-size:1em;'>"});
 	});

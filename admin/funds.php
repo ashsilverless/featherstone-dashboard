@@ -39,7 +39,7 @@ require_once('page-sections/header-elements.php');
 
 <div class="container">
     <div class="border-box main-content daily-data">
-<a href="#" class="button button__raised button__inline">Add Fund</a>
+<!--<a href="#" class="button button__raised button__inline">Add Fund</a>-->
 <h1 class="heading heading__2">Daily & Historical Prices</h1>
 
 <div class="prices-table">
@@ -94,10 +94,11 @@ require_once('page-sections/header-elements.php');
               while($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 $codes[] = $row['isin_code'];
                 $as_at = date('j M y',strtotime($row['correct_at'])); ?>
-    <form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>">
+    <form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>" class="fund">
         <div class="prices-table__account">
-        <div>
+        <div class="fund-toggle">
             <h3 class="heading heading__4"><?= $row['fund_name'];?></h3>
+            <span><i class="fas fa-sort-down"></i></span>
         </div>
         <div>
             <h3 class="heading heading__4"><?= $row['isin_code'];?></h3>
@@ -116,20 +117,24 @@ require_once('page-sections/header-elements.php');
         </div>
         <div>
             <div class="split">
-                <div><input name="price<?=$row['isin_code'];?>" type="text" id="price<?=$row['isin_code'];?>" title="price" value="0.00" size="4"></div>
-                <div><input name="pricedate<?=$row['isin_code'];?>" type="text" id="pricedate<?=$row['isin_code'];?>" title="pricedate" value="" size="6"></div>
+                <div class="narrow"><input name="price<?=$row['isin_code'];?>" type="text" id="price<?=$row['isin_code'];?>" title="price" value="0.00" size="4"></div>
+                <div class="narrow"><input name="pricedate<?=$row['isin_code'];?>" type="text" id="pricedate<?=$row['isin_code'];?>" title="pricedate" value="" size="6"></div>
             </div>
         </div>
         <div>
-            <a href="#" class="button button__raised">Edit</a>
+            <a href="#" class="button button__raised">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.82 21.82"><defs><style>.cls-1{fill:#1d1d1b;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M7.71,19.39a.71.71,0,0,0-.54-.22H4.91c-1.57,0-2.26-.69-2.26-2.26V14.65a.67.67,0,0,0-.23-.53L.83,12.5a2,2,0,0,1,0-3.19l1.59-1.6a.72.72,0,0,0,.23-.54V4.92c0-1.59.69-2.27,2.26-2.27H7.17a.73.73,0,0,0,.54-.22L9.31.83a1.94,1.94,0,0,1,3.19,0l1.61,1.6a.71.71,0,0,0,.54.22h2.26c1.57,0,2.26.69,2.26,2.27V7.17a.72.72,0,0,0,.23.54L21,9.31a2,2,0,0,1,0,3.19L19.4,14.12a.67.67,0,0,0-.23.53v2.26c0,1.57-.69,2.26-2.26,2.26H14.65a.71.71,0,0,0-.54.22L12.5,21a1.94,1.94,0,0,1-3.18,0Zm4,.76,1.87-1.88a.89.89,0,0,1,.7-.29h2.67c.89,0,1.07-.17,1.07-1.07V14.23a1,1,0,0,1,.28-.69l1.89-1.87c.63-.64.63-.87,0-1.52L18.26,8.28a.94.94,0,0,1-.28-.7V4.92c0-.9-.18-1.08-1.07-1.08H14.24a.89.89,0,0,1-.7-.29L11.67,1.67C11,1,10.79,1,10.15,1.67L8.28,3.55a.89.89,0,0,1-.7.29H4.91C4,3.84,3.84,4,3.84,4.92V7.58a.94.94,0,0,1-.28.7L1.67,10.15c-.63.65-.63.88,0,1.52l1.89,1.87a1,1,0,0,1,.28.69v2.68c0,.9.17,1.07,1.07,1.07H7.58a.89.89,0,0,1,.7.29l1.87,1.88C10.79,20.79,11,20.79,11.67,20.15Zm-2.8-4.77L5.68,11.76a.55.55,0,0,1-.18-.41.64.64,0,0,1,1.11-.41l2.72,3,5.12-7.25A.63.63,0,0,1,15.61,7a.77.77,0,0,1-.14.4l-5.63,7.9a.6.6,0,0,1-.5.23A.64.64,0,0,1,8.87,15.38Z"/></g></g></svg>
+                Save</a>
         </div>
     </div>
-    <!--<table>
+    <div class="fund-table-wrapper">
+        <table class="funds-table">
         <tr class="<?=$row['isin_code'];?>">
         <td align="center" colspan="10" id="daily_prices<?= $row['isin_code'];?>"></td>
         </tr>
-        <tr class="<?=$row['isin_code'];?>"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --><!--</td></tr>
-    </table>-->
+        <tr class="<?=$row['isin_code'];?>"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --></td></tr>
+    </table>
+    </div>
     </form>
     <?php }
       }
@@ -150,82 +155,7 @@ require_once('page-sections/header-elements.php');
 </div>
 </div>
 </div>
-
-        <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 mb-5">
-			<div id="funddetails" class="col-md-12"></div>
-
-			<div class="table-responsive mt-5">
-			  <table class="table table-sm table-striped">
-			    <tbody>
-					<tr>
-					  <td colspan="2" rowspan="2" valign="middle" bgcolor="#FFFFFF"><strong>Fund Name</strong></td>
-					  <td rowspan="2" align="center" valign="middle" bgcolor="#FFFFFF"><strong>ISIN Code</strong></td>
-					  <td rowspan="2" align="center" valign="middle" bgcolor="#FFFFFF"><strong>Fund Sedol</strong></td>
-					  <td rowspan="2" align="center" valign="middle" bgcolor="#FFFFFF"><strong>Benchmark</strong></td>
-					  <td colspan="2" align="center" bgcolor="#FFFFFF" style="border-top:1px solid #666; border-left:1px solid #666; border-right:1px solid #666;"><strong>Current Price</strong></td>
-					  <td colspan="2" align="center" bgcolor="#FFFFFF" style="border-top:1px solid #666; border-left:1px solid #666; border-right:1px solid #666;"><strong>Add Price</strong></td>
-					  <td bgcolor="#FFFFFF">&nbsp;</td>
-				  </tr>
-					<tr>
-					  <td align="center" bgcolor="#FFFFFF" style="border-bottom:1px solid #666; border-left:1px solid #666;"><strong>Price</strong></td>
-					  <td align="center" bgcolor="#FFFFFF" style="border-bottom:1px solid #666; border-right:1px solid #666;"><strong>As At</strong></td>
-					  <td align="center" bgcolor="#FFFFFF" style="border-bottom:1px solid #666; border-left:1px solid #666;"><strong>Price</strong></td>
-					  <td align="center" bgcolor="#FFFFFF" style="border-bottom:1px solid #666; border-right:1px solid #666;"><strong>As At</strong></td>
-					  <td bgcolor="#FFFFFF">&nbsp;</td>
-					</tr>
-					<?php
-					try {
-					  // Connect and create the PDO object
-					  $conn = new PDO("mysql:host=$host; dbname=$db", $user, $pass);
-					  $conn->exec("SET CHARACTER SET $charset");      // Sets encoding UTF-8
-
-					  $codes = array();
-						 //    Get the funds   //
-
-						foreach($isincodes as $code) {
-							$query = "SELECT *  FROM `tbl_fs_fund` where isin_code LIKE '$code' AND bl_live = 1 ORDER BY correct_at DESC LIMIT 1;";
-
-					  		$result = $conn->prepare($query);
-					  		$result->execute();
-
-							  // Parse returned data
-							  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-								$codes[] = $row['isin_code'];
-								$as_at = date('j M y',strtotime($row['correct_at'])); ?>
-				<form method="post" name="form<?=$row['isin_code'];?>" id="form<?=$row['isin_code'];?>">
-								  <tr>
-									  <td class="head<?=$row['isin_code'];?> normal"><?= $row['fund_name'];?></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><a href="#" class="toggler indicator" data-prod-name="<?=$row['isin_code'];?>"><i class="fas fa-caret-up arrow<?=$row['isin_code'];?>" style="font-size:2em;"></i></a></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><?= $row['isin_code'];?></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><?= $row['fund_sedol'];?></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><?= $row['benchmark'];?></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><?= $row['current_price'];?></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><?= $as_at;?></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><input name="price<?=$row['isin_code'];?>" type="text" id="price<?=$row['isin_code'];?>" title="price" value="0.00" size="4"></td>
-									  <td class="head<?=$row['isin_code'];?> normal text-nowrap" align="center"><input name="pricedate<?=$row['isin_code'];?>" type="text" id="pricedate<?=$row['isin_code'];?>" title="pricedate" value="" size="6"></td>
-									  <td class="head<?=$row['isin_code'];?> normal"><input type="submit" style="font-size:0.8em" class="btn btn-admin" value="Add Price"></td>
-								  </tr>
-								</form>
-								  <tr class="<?=$row['isin_code'];?>" style="font-size:0.8em; background-color:white; font-weight:bold; display:none;">
-									<td align="center" colspan="10" id="daily_prices<?= $row['isin_code'];?>"></td>
-								  </tr>
-					<tr class="<?=$row['isin_code'];?>" style="font-size:0.8em; background-color:white; font-weight:bold; display:none;"><td colspan="10" align="center"><!--  #Delete Fund    <a href="#" data-href="deletefund.php?ic=<?= $row['isin_code'];?>" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" style="font-size:0.85em; font-weight:bold;">Delete Fund</a> --><!--</td></tr>
-					  <?php }
-						}
-					  $conn = null;        // Disconnect
-
-					}
-
-					catch(PDOException $e) {
-					  echo $e->getMessage();
-					}
-					?>
-			      </tbody>
-				</table>
-		  </div>
-      </main>-->
-      </div>
-    </div>
+</div>
 
 <?php require_once('page-sections/footer-elements.php');?>
 
@@ -286,7 +216,7 @@ require_once(__ROOT__.'/global-scripts.php');?>
 	<?php for($a=0;$a<count($codes);$a++){ ?>
 
 
-		$('#pricedate<?=$codes[$a]?>').datepicker({  format: "yyyy-mm-dd" , todayHighlight: true });
+		$('#pricedate<?=$codes[$a]?>').datepicker({  format: "dd mm yy" , todayHighlight: true });
 
 		$("#form<?=$codes[$a]?>").submit(function(e) {
 			e.preventDefault(); // avoid to execute the actual submit of the form.

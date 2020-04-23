@@ -173,7 +173,7 @@
     &__head,
     &__account {
         display: grid;
-        grid-template-columns: 20% 10% 10% 10% 15% 15% 15%;
+        grid-template-columns: 20% 10% 10% 10% 15% 18% 10%;
         grid-column-gap: 1rem;
         align-items: center;
         .split {
@@ -186,7 +186,7 @@
         }
     }
     &__head {
-        padding: 0 2rem;
+        padding: 0 2rem 1rem;
     }
     &__account {
         .heading {
@@ -200,12 +200,166 @@
     .recess-box {
         padding:2rem;
     }
+    .narrow input {
+        padding: 0.75rem 0.5rem;
+        text-align: center;
+    }
 }
+
+body .datepicker-container {
+    border: none;
+    border-radius: 0.5em;
+    background: #484848;
+    box-shadow: -10px -10px 10px #545454, 10px 10px 10px #353535;
+    ul {
+        li {
+            background-color: transparent;
+        }
+    }
+}
+
+/*Over writes */
+body .datepicker-panel>ul[data-view=week]>li,
+body .datepicker-panel>ul[data-view=week]>li:hover {
+    background-color: transparent;
+}
+body .datepicker-panel>ul>li.highlighted:hover,
+body .datepicker-panel>ul>li:hover {
+    background-color: #262626;
+    border-radius: 20%;
+}
+body .datepicker-panel>ul:first-of-type >li:nth-of-type(2).highlighted:hover,
+body .datepicker-panel>ul:first-of-type >li:nth-of-type(2):hover {
+    border-radius: 0%;
+}
+
+body .datepicker-panel>ul>li.picked,
+body .datepicker-panel>ul>li.picked:hover {
+    color: #313131;
+    background-color: #dadada;
+    border-radius: 10%;
+}
+
+body .datepicker-top-left:after, .datepicker-top-right:after {
+    border-bottom-color: #484848;
+}
+
+body .datepicker-top-left:before,
+body .datepicker-top-right:before {
+    border-bottom: none;
+}
+body .datepicker-panel>ul>li.highlighted {
+    background-color: transparent;
+    border: 1px solid #6f6f6f;
+    border-radius: 20%;
+}
+
+form.fund {
+    border-bottom: 1px solid #606060;
+    margin-bottom: 1rem;
+    padding-bottom:1rem;
+    &:last-of-type {
+        border-bottom:none;
+        margin-bottom:0;
+        padding-bottom:0;
+    }
+    &.active {
+        > .fund-table-wrapper {
+            max-height: 150vh;
+
+        }
+        .fund-toggle span svg{
+            transform:rotate(180deg);
+        }
+        .prices-table__account .heading {
+            color: $color_green;
+        }
+    }
+}
+
+.fund-toggle {
+    display: grid;
+    grid-template-columns: auto 1rem;
+    cursor: pointer;
+    .heading {
+    }
+    span {
+
+        color: $color_blue;
+        svg {
+            transition:transform 1s ease;
+        }
+    }
+}
+
+.fund-table-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition:max-height 1s ease;
+}
+
+.funds-table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 50%;
+    margin: 1rem auto 2rem;
+    table {
+        width:100%;
+        .heading {
+            margin-bottom: 1rem;
+        }
+        td {
+            width:14.2%;
+        }
+        td.calendar-day-np,
+        td.calendar-day-nd,
+        td.calendar-day {
+            border: 1px solid #818181;
+            a {
+                color: $color_green;
+                font-weight: 200;
+            }
+            &.today {
+                background: #333333;
+            }
+        }
+        .day-number {
+            margin:3px 0 0 5px;
+            text-align: left;
+            color: #b7b7b7;
+        }
+    }
+}
+
+.price span {
+    display: block;
+}
+
+.calendar-row {
+    text-align: center;
+}
+
+.calendar {
+    &__head {
+        td {
+            min-width: 8rem;
+            text-align: center;
+            &:nth-of-type(1) {
+                text-align:left;
+            }
+            &:nth-of-type(3) {
+                text-align:right;
+            }
+        }
+    }
+}
+
 
 .asset-form {
     display: grid;
     grid-template-columns: 6fr 2fr;
     grid-column-gap: 2rem;
+    margin-bottom: 5rem;
     .content {
         grid-column: 1/2;
         display: grid;
@@ -241,7 +395,7 @@
     &__head,
     &__item {
         display: grid;
-        grid-template-columns: 4fr 2fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 6fr 5fr 2fr 2fr 2fr 3fr;
     }
     &__head {
         margin-bottom: 1rem;
